@@ -1,0 +1,47 @@
+<h1>Edit Flashcard</h1>
+	<% if flash[:notice] %> 
+    	<div class="notice"><%= flash[:notice] %></div>
+    	<% flash[:notice] = nil %>
+	<% end %>
+<%= form_tag("/flashcards/" + @flashcard.id.to_s, method: "patch", multipart: true) do %>
+	<div class="edit-flashcard">
+		<div class="flashcard">
+			<h3>Original Word</h3>
+			<p><%= @flashcard.orig_word %></p>
+
+			<h3>Translation</h3>
+			<p>
+			  <%= label_tag(:translation, "")%> 
+			  <%= text_field_tag :translation, @flashcard.translation %>
+			</p>
+
+			<h3>Current Image</h3>
+			<%= image_tag @flashcard.image.url, :width => "300px", :height => "200px"%>
+			<%= label_tag(:image, "Select different image from hard drive: ") %>
+			<%= file_field_tag :image %>
+		</div>
+		
+		<h3>Tags</h3>
+		<ul>
+			<li>
+			   <% langs_link_label = @langs.from_lang.capitalize + " to " + @langs.to_lang.capitalize %>
+			   <%= link_to langs_link_label, stacks_by_langs_path(@langs.code.sub('-','_')) %>
+			</li>
+			<li>
+				<% batch_link_label = 'Batch ' + @flashcard.batch_num.to_s %>
+				<%= link_to batch_link_label, stacks_by_batch_path(@flashcard.batch_num) %> 
+			</li>
+			
+			<% @flashcard.user_defined_tags.each do |t| %>
+				<li>
+					<%= link_to t.name.capitalize, user_defined_tag_stack_path(t) %> 
+					<%= check_box_tag "disassoc_tag[]", t.name %>
+				</li>
+			<% end %>
+		</ul>
+	    
+	    <p class="instructions">To add tags, enter them as a comma seperated list in the textfield below. <p class="example"><h4>Example</h4> animal, noun</p></p>
+		<%= text_field_tag :tags %>
+	</div>
+  <%= submit_tag("Edit!") %>
+<% end %>

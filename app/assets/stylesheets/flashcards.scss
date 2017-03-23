@@ -1,0 +1,30 @@
+// Place all the styles related to the Flashcard controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.flashcard{
+	border: 1px solid black; 
+	padding: 10px; 
+}
+.flashcard-container{
+	width: 30%;
+	float: left; 
+	margin: 2px;
+}
+
+.flashcard-container:after{
+	clear: both; 
+}
+
+.edit-flashcard{
+	border: 1px solid black;
+	padding: 10px;
+	width: 30%;
+}
+.hide{
+	display: none; 
+}
+.word-input{
+	border: 1px solid black;
+	padding: 10px;
+	margin: 10px;
+}

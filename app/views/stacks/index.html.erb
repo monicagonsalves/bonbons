@@ -1,0 +1,31 @@
+<h1>All Stacks</h1>
+<div id="auto-generated-stacks">
+	<h2>Automatically Generated Stacks</h2>
+	<ul class="clearer">
+		<li data-div-id="master-stack-list">Master Stack (all flashcards)</li>
+		<li data-div-id="creation-batch-stacks-list">Stacks by Creation Batch</li>
+		<li data-div-id="language-pair-stacks-list">Stacks by Language Pairs</li>
+	</ul>
+  
+	<div id="master-stack-list" class="hide">
+<%= render partial: "single_stack", locals: { stack: @stacks["master"]}%> 
+	</div>
+	<div id="creation-batch-stacks-list" class="hide">
+		<% @stacks["batch"].each do |b_id, b| %>
+		   <% if b[:size] > 0 then %> 
+		   	<%= render partial: "single_stack", locals: { stack: b} %>
+		   <% end %>
+		<% end %>
+	</div>
+	<div id="language-pair-stacks-list" class="hide">
+		<% @stacks["lang_pair"].each do |lp_id, lp| %>
+		   <% if lp[:size] > 0 then %> 
+		   	  <%= render partial: "single_stack", locals: { stack: lp} %>
+		   <% end %>
+		<% end %>
+	</div>
+</div>
+<div class="clearer"></div>
+<div id="user-generated-stacks">
+	<h2>User Generated Stacks</h2>
+</div>

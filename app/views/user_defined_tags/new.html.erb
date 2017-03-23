@@ -1,0 +1,6 @@
+<h1>Create New Tag</h1>
+	<% if flash[:notice] %> 
+    	<div class="notice"><%= flash[:notice] %></div>
+    	<% flash[:notice] = nil %> 
+	<% end %>
+<%= render partial: "input_form", locals: { tag: @tag, form_path: "/user_defined_tags", form_method: "post", submit_label: "Create!"  }%> 

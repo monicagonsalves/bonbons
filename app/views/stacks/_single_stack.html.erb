@@ -1,0 +1,14 @@
+<div class="stack-container">
+ <div class="stack">
+ 	<h3><%= stack[:title] %></h3>
+ 	<ul>
+ 		<li>Stack contains <%= stack[:size] %> flashcards</li>
+ 	</ul>
+ 	<ul>
+ 		<li><%= link_to 'View', stack[:link] %></li>
+ 		<li><%= link_to 'Delete', stack[:link],
+            	  method: :delete,
+              	data: { confirm: 'Are you sure?' } %></li>
+ 	</ul>
+ </div>
+</div>

@@ -1,0 +1,23 @@
+<% if tag.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= pluralize(tag.errors.count, "error") %> prohibited
+        this article from being saved:
+      </h2>
+      <ul>
+        <% tag.errors.messages.each do |key, msgs| %>
+        	<% msgs.each do |msg| %> 
+        	  <li><%= tag[key] + " " + msg %></li>
+        	<% end %> 
+        <% end %>
+      </ul>
+    </div>
+<% end %>
+
+<%= form_tag(form_path, method: form_method) do %>
+	<p>
+		<%= label_tag(:name, "Name: ")%> 
+		<%= text_field_tag :name %>
+	</p>
+  <%= submit_tag(submit_label) %>
+<% end %>

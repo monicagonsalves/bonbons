@@ -1,0 +1,25 @@
+<h1>All User Defined Tags</h1>
+	<% if flash[:notice] %> 
+    	<div class="notice"><%= flash[:notice] %></div>
+    	<% flash[:notice] = nil %>
+	<% end %>
+<table>
+	<tr>
+		<th>Name</th>
+		<th>Number of Flashcards</th>
+		<th>Edit?</th>
+		<th>Delete?</th>
+		<th>View Flashcards (stack)?</th>
+	</tr>
+	<% @tags.each do |tag| %>
+		<tr>	
+			<td><%= tag.name %></td>
+			<td><%= tag.flashcards.size %></td>
+			<td><%= link_to 'Edit', edit_user_defined_tag_path(tag) %></td>
+			<td><%= link_to 'Delete', user_defined_tag_path(tag),
+            	  method: :delete,
+              	data: { confirm: 'Are you sure?' } %></td>
+			<td><%= link_to 'Flashcards (stack)', user_defined_tag_stack_path(tag) %></td>
+		</tr>
+	<% end %>
+</table>
