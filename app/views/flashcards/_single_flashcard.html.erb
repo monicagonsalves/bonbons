@@ -19,18 +19,26 @@
 	
 	<h3>Tags</h3>
 	<ul>
-		<li>
-		   <% langs_link_label = l.from_lang.capitalize + " to " + l.to_lang.capitalize %>
-		   <%= link_to langs_link_label, stacks_by_langs_path(l.code.sub('-','_')) %>
+		<li><h4>Properties</h4>
+			<ul>
+				<li>
+		   			<% langs_link_label = l.from_lang.capitalize + " to " + l.to_lang.capitalize %>
+		   			<%= link_to langs_link_label, stacks_by_langs_path(l.code.sub('-','_')) %>
+				</li>
+				<li>
+					<% batch_link_label = 'batch ' + f.batch_num.to_s %>
+					<%= link_to batch_link_label, stacks_by_batch_path(f.batch_num) %> 
+				</li>
+			</ul>
 		</li>
-		<li>
-			<% batch_link_label = 'batch ' + f.batch_num.to_s %>
-			<%= link_to batch_link_label, stacks_by_batch_path(f.batch_num) %> 
+		<!-- TODO: Add link to user defined tag stacks -->
+		<li><h4>User Defined Tags</h4>
+			<ul>
+				<% f.user_defined_tags.each do |t| %>
+					<li><%= link_to t.name, ''%></li>
+				<% end %>
+			</ul>
 		</li>
-
-		<% f.user_defined_tags.each do |t| %>
-			<li><%= link_to t.name, ''%></li>
-		<% end %>
 	</ul>
 
 </div>

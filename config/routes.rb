@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
+  devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
+ root to: 'home#index'
+ 
  get '/flashcards', to: "stacks#master", as: :flashcards
  get 'stacks/master', to: 'stacks#master'
 
@@ -26,7 +29,7 @@ Rails.application.routes.draw do
  delete 'stacks/by_tag/:id',   to: 'stacks#destroy_by_user_defined_tag_tag', constraints: {id: /[0-9]+/}
 
  resources :user_defined_tags, only:[:edit, :update, :destroy, :new, :create, :index]
-
+ resources :tags, only: [:index]
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'

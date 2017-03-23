@@ -22,6 +22,7 @@
 		</div>
 		
 		<h3>Tags</h3>
+		<h4>Properties</h4>
 		<ul>
 			<li>
 			   <% langs_link_label = @langs.from_lang.capitalize + " to " + @langs.to_lang.capitalize %>
@@ -31,6 +32,9 @@
 				<% batch_link_label = 'Batch ' + @flashcard.batch_num.to_s %>
 				<%= link_to batch_link_label, stacks_by_batch_path(@flashcard.batch_num) %> 
 			</li>
+		</ul>
+		<h4>User Defined Tags</h4>
+		<ul>
 			
 			<% @flashcard.user_defined_tags.each do |t| %>
 				<li>
