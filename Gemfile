@@ -25,9 +25,12 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'sidekiq'
 gem 'paperclip', '~> 5.0.0'
 gem 'addressable', '~> 2.5'
-gem 'jquery-turbolinks'
+#gem 'jquery-turbolinks'
+
 gem 'devise'
 gem 'activemodel'
+gem 'bootstrap-sass', '~> 3.3.7'
+gem 'autoprefixer-rails'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

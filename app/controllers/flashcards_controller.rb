@@ -112,8 +112,8 @@ class FlashcardsController < ApplicationController
 	def create_batch
 		self.new_batch
 
-		current_batch_num = Flashcard.maximum("batch_num")
-		batch_num = if current_batch_num.nil? then 0 else (current_batch_num + 1) end
+		#current_batch_num = Flashcard.maximum("batch_num")
+		#batch_num = if current_batch_num.nil? then 0 else (current_batch_num + 1) end
 
 		if params[:word].nil? then
 			@errors << "Must include at least one flashcard!"
@@ -134,7 +134,7 @@ class FlashcardsController < ApplicationController
 						@errors << "Word fields cannot be empty."
 					else
 						flashcards_temp << {:flashcard => nil, :tag_names => ""}
-						flashcards_temp.last[:flashcard] = Flashcard.new({:language_pair_id => language_pair.id, :orig_word => word, :batch_num => batch_num})
+						flashcards_temp.last[:flashcard] = Flashcard.new({:language_pair_id => language_pair.id, :orig_word => word })
 
 						# Try looking up the word. Can we find a translation?
 						lookup_attempt = @@yandex.lookup(params[:from_lang], params[:to_lang], word)
@@ -197,9 +197,11 @@ class FlashcardsController < ApplicationController
 		end # end has the user entered any words? 
 			
 		if @errors.empty?
+			batch = Batch.create()
 			word_i = 0
 			flashcards_temp.each do |f|
 				f[:flashcard].user_id = current_user.id
+				f[:flashcard].batch_id = batch.id
 				f[:flashcard].save 
 
 				# Add tags.. 
@@ -219,7 +221,7 @@ class FlashcardsController < ApplicationController
 			end
 
 			flash[:notice] = "Successfully created the batch you are viewing!"
-			redirect_to stacks_by_batch_path(batch_num)
+			redirect_to stacks_by_batch_path(batch.id)
 		else
 			render 'new_batch'
 		end

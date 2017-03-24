@@ -26,8 +26,8 @@
 		   			<%= link_to langs_link_label, stacks_by_langs_path(l.code.sub('-','_')) %>
 				</li>
 				<li>
-					<% batch_link_label = 'batch ' + f.batch_num.to_s %>
-					<%= link_to batch_link_label, stacks_by_batch_path(f.batch_num) %> 
+					<% batch_link_label = 'batch ' + f.batch_id.to_s %>
+					<%= link_to batch_link_label, stacks_by_batch_path(f.batch_id) %> 
 				</li>
 			</ul>
 		</li>

@@ -25,21 +25,18 @@ class StacksController < ApplicationController
 			end
 		end
 
-		# Find all batch stacks
-		highest_batch_num = Flashcard.maximum("batch_num")
+		batches = Flashcard.joins(:batch).where(user_id: current_user.id).uniq.pluck(:batch_id)
 
-		unless highest_batch_num.nil? 
-			@stacks["batch"] = {}
-			for i in 0..highest_batch_num
-				get_by_batch(i)
+		@stacks["batch"] = {}
 
-				if @flashcards.count > 0 
-					@stacks["batch"][i] = {}
-					@stacks["batch"][i][:size] = @flashcards.count
-					@stacks["batch"][i][:title] = "All flashcards from batch " + i.to_s
-					@stacks["batch"][i][:link] = stacks_by_batch_path(i)
-				end 
-			end
+		batches.each do |i| 
+			get_by_batch(i)
+			if @flashcards.count > 0 
+				@stacks["batch"][i] = {}
+				@stacks["batch"][i][:size] = @flashcards.count
+				@stacks["batch"][i][:title] = "All flashcards from batch " + i.to_s
+				@stacks["batch"][i][:link] = stacks_by_batch_path(i)
+			end 
 		end
 
 	end
@@ -152,9 +149,9 @@ class StacksController < ApplicationController
 	end
 
 	def get_by_batch(id)
-		temp = Flashcard.where(batch_num: id, user_id: current_user.id)
+		temp = Flashcard.where(batch_id: id, user_id: current_user.id)
 
-		unless temp.nil?
+		unless temp.empty?
 			@flashcards = temp 
 			return true
 		end

@@ -17,6 +17,8 @@ class Flashcard < ActiveRecord::Base
 	#-------------------------Associations---------------------------------#
 	belongs_to :language_pair
   belongs_to :user
+  belongs_to :batch
+
 	has_and_belongs_to_many :user_defined_tags
 	has_and_belongs_to_many :stacks
 

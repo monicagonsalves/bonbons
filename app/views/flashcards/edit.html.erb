@@ -27,8 +27,8 @@
 			   <%= link_to langs_link_label, stacks_by_langs_path(@langs.code.sub('-','_')) %>
 			</li>
 			<li>
-				<% batch_link_label = 'Batch ' + @flashcard.batch_num.to_s %>
-				<%= link_to batch_link_label, stacks_by_batch_path(@flashcard.batch_num) %> 
+				<% batch_link_label = 'Batch ' + @flashcard.batch_id.to_s %>
+				<%= link_to batch_link_label, stacks_by_batch_path(@flashcard.batch_id) %> 
 			</li>
 		</ul>
 		<h4>User Defined Tags</h4>

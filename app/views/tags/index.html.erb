@@ -1,0 +1,24 @@
+<h1>All Tags</h1>
+	<% if flash[:notice] %> 
+    	<div class="notice"><%= flash[:notice] %></div>
+    	<% flash[:notice] = nil %>
+	<% end %>
+<table>
+	<tr>
+		<th>Name</th>
+		<th>Number of Flashcards</th>
+		<th>Editable?</th>
+		<th>Deletable?</th>
+		<th>View Flashcards (stack)?</th>
+	</tr>
+	<!-- TODO : Add edit and delete links where needed -->
+	<% @tags.each do |tag| %>
+		<tr>	
+			<td><%= tag.name %></td>
+			<td><%= tag.flashcards.size %></td>
+			<td><%= if tag.type == 1 then "Yes" else "No" end %></td>
+			<td><%= if tag.type == 1 then "Yes" else "No" end %></td>
+			<td><%= link_to 'Flashcards (stack)', tag.stack_path %></td>
+		</tr>
+	<% end %>
+</table>
