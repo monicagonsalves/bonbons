@@ -1,6 +1,3 @@
 <h1>Edit User Defined Tag <%= @tag.name.capitalize %></h1>
-	<% if flash[:notice] %> 
-    	<div class="notice"><%= flash[:notice] %></div>
-    	<% flash[:notice] = nil %>
-	<% end %>
+<%= render partial: 'home/flash' %> 
 <%= render partial: "input_form", locals: { tag: @tag, form_path: '/user_defined_tags/' + @tag.id.to_s, form_method: 'patch', submit_label: "Edit!"  }%> 

@@ -1,4 +1,6 @@
 class StacksController < ApplicationController
+	before_action :authenticate_user!
+	
 	def index 
 		@stacks = {}
 		
@@ -55,6 +57,9 @@ class StacksController < ApplicationController
 			@delete_path = stacks_by_batch_path(params[:id])
 			stack_title = 'All flashcards from batch ' + params[:id]
 			generate_stack(stack_title)
+		else 
+			flash[:notice] = "Cannot retrieve stack by batch number given."
+			redirect_to stacks_index_path
 		end
 	end 
 
@@ -65,6 +70,9 @@ class StacksController < ApplicationController
 			@delete_path = stacks_by_langs_path(@language_pair.code.sub('-','_'))
 			stack_title = 'All flashcards from ' + @language_pair.from_lang.capitalize + " to " + @language_pair.to_lang.capitalize
 			generate_stack(stack_title)
+		else 
+			flash[:notice] = "Cannot retrieve stack by language pair given."
+			redirect_to stacks_index_path
 		end  
 		
 	end 
@@ -76,6 +84,9 @@ class StacksController < ApplicationController
 			@delete_path = stacks_by_user_defined_tag_path(params[:id])
 			stack_title = "All flashcards with tag " + @tag.name
 			generate_stack(stack_title)
+		else 
+			flash[:notice] = "Cannot retrieve stack by tag given."
+			redirect_to stacks_index_path
 		end 
 	end
 
@@ -94,7 +105,10 @@ class StacksController < ApplicationController
 			@count = @flashcards.count 
 			@stack_title =  @language_pair.from_lang.capitalize + " to " + @language_pair.to_lang.capitalize
 			destroy_stack
-		end 
+		else 
+			flash[:notice] = "Cannot delete stack."
+			redirect_to stacks_index_path
+		end
 	end
 
 	def destroy_by_batch
@@ -104,6 +118,9 @@ class StacksController < ApplicationController
 			@count = @flashcards.count 
 			@stack_title = "batch " + params[:id]
 			destroy_stack
+		else 
+			flash[:notice] = "Cannot delete stack."
+			redirect_to stacks_index_path
 		end 
 
 	end
@@ -115,6 +132,9 @@ class StacksController < ApplicationController
 			@count = @flashcards.count 
 			@stack_title = " tag " + @tag.name 
 			destroy_stack
+		else 
+			flash[:notice] = "Cannot delete stack."
+			redirect_to stacks_index_path
 		end
 	end
 
@@ -124,7 +144,7 @@ class StacksController < ApplicationController
 		@language_pair = LanguagePair.find_by(code: lang_code)
 
 		unless @language_pair.nil?
-			@flashcards = Flashcard.where(language_pair_id: @language_pair.id )
+			@flashcards = Flashcard.where(language_pair_id: @language_pair.id, user_id: current_user.id)
 			return true 	
 		end
 
@@ -132,7 +152,7 @@ class StacksController < ApplicationController
 	end
 
 	def get_by_batch(id)
-		temp = Flashcard.where(batch_num: id)
+		temp = Flashcard.where(batch_num: id, user_id: current_user.id)
 
 		unless temp.nil?
 			@flashcards = temp 
@@ -143,11 +163,11 @@ class StacksController < ApplicationController
 	end
 
 	def get_master
-		@flashcards = Flashcard.all
+		@flashcards = Flashcard.where(user_id: current_user.id)
 	end
 
 	def get_by_user_defined_tag(id)
-		@tag = UserDefinedTag.find(id)
+		@tag = UserDefinedTag.find_by(id: id, user_id: current_user.id)
 
 		unless @tag.nil?
 			@flashcards = @tag.flashcards

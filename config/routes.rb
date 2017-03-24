@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: {
+    sessions: 'users/sessions'
+  }
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
  root to: 'home#index'
@@ -30,6 +32,7 @@ Rails.application.routes.draw do
 
  resources :user_defined_tags, only:[:edit, :update, :destroy, :new, :create, :index]
  resources :tags, only: [:index]
+
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'

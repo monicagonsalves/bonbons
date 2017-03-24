@@ -1,8 +1,6 @@
 <h1>Edit Flashcard</h1>
-	<% if flash[:notice] %> 
-    	<div class="notice"><%= flash[:notice] %></div>
-    	<% flash[:notice] = nil %>
-	<% end %>
+<%= render partial: 'home/flash' %> 
+
 <%= form_tag("/flashcards/" + @flashcard.id.to_s, method: "patch", multipart: true) do %>
 	<div class="edit-flashcard">
 		<div class="flashcard">

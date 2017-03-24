@@ -1,77 +1,103 @@
 class FlashcardsController < ApplicationController
+	before_action :authenticate_user!
+	
 	###############################################################################
 	def show
 		@flashcard = Flashcard.find(params[:id])
-		@langs = LanguagePair.find(@flashcard.language_pair_id)
+
+		unless @flashcard.user_id == current_user.id 
+			flash[:notice] = "Sorry, but you do not have access to selected flashcard."
+			redirect_to flashcards_path 
+		else
+			@langs = LanguagePair.find(@flashcard.language_pair_id)
+		end
+
 	end 
 	###############################################################################
 	def edit
 		@flashcard = Flashcard.find(params[:id])
-		@langs = LanguagePair.find(@flashcard.language_pair_id)
+
+		if @flashcard.user_id == current_user.id 
+			@langs = LanguagePair.find(@flashcard.language_pair_id)
+		else 
+			flash[:notice] = "Oops, you cannot edit the flashcard you selected."
+			redirect_to flashcards_path
+		end
 	end 
 	###############################################################################
 	def update
 		@flashcard = Flashcard.find(params[:id])
-		@langs = LanguagePair.find(@flashcard.language_pair_id)
-		updated_flashcard = false 
-		msg = ""
 
-		unless @flashcard.translation == params[:translation]
-			@flashcard.translation = params[:translation].downcase
-			msg = "updated translation."
-			updated_flashcard = true 
-		end
+		if @flashcard.user_id == current_user.id 
 
-		unless params[:image].nil?
-			@flashcard.image = params[:image]
-			msg = "updated image."
-			updated_flashcard = true 
-		end
-
-		unless params[:tags].empty?
-			# Split string into an array, and strip off the whitespace
-			# from each element. Finally, make each tag all lowercase. 
-			updated_flashcard = assoc_tags_with_flashcard(params[:tags], @flashcard)
-			msg = "associated flashcard with tags " + params[:tags]
-		end 
-
-		unless params[:disassoc_tag].nil? 
-			tags_to_disassoc = []
-			params[:disassoc_tag].each do |tag_name|
-				if UserDefinedTag.exists?(name: tag_name)  
-					tags_to_disassoc << UserDefinedTag.find_by(name: tag_name)
-				end 
-			end
-
-			unless tags_to_disassoc.empty?
-				@flashcard.user_defined_tags.destroy(tags_to_disassoc)
-				msg = "disassociated flashcard with tags " + params[:disassoc_tag].map(&:downcase).join(', ')
+			@langs = LanguagePair.find(@flashcard.language_pair_id)
+			updated_flashcard = false 
+			msg = ""
+			
+			unless @flashcard.translation == params[:translation]
+				@flashcard.translation = params[:translation].downcase
+				msg = "updated translation."
 				updated_flashcard = true 
 			end
-		end
 
-
-		if updated_flashcard
-			if @flashcard.valid?
-				@flashcard.save
+			unless params[:image].nil?
+				@flashcard.image = params[:image]
+				msg = "updated image."
+				updated_flashcard = true 
 			end
-			flash[:notice] = "Successfully " + msg
-		else
-			flash[:notice] = "Failed to update flashcard either because you did not enter any values to update or because of invalid input."
-		end
 
-		render 'edit'
+			unless params[:tags].empty?
+				# Split string into an array, and strip off the whitespace
+				# from each element. Finally, make each tag all lowercase. 
+				updated_flashcard = assoc_tags_with_flashcard(params[:tags], @flashcard)
+				msg = "associated flashcard with tags " + params[:tags]
+			end 
+
+			unless params[:disassoc_tag].nil? 
+				tags_to_disassoc = []
+				params[:disassoc_tag].each do |tag_name|
+					if UserDefinedTag.exists?(name: tag_name)  
+						tags_to_disassoc << UserDefinedTag.find_by(name: tag_name)
+					end 
+				end
+
+				unless tags_to_disassoc.empty?
+					@flashcard.user_defined_tags.destroy(tags_to_disassoc)
+					msg = "disassociated flashcard with tags " + params[:disassoc_tag].map(&:downcase).join(', ')
+					updated_flashcard = true 
+				end
+			end
+
+
+			if updated_flashcard
+				if @flashcard.valid?
+					@flashcard.save
+				end
+				flash[:notice] = "Successfully " + msg
+			else
+				flash[:notice] = "Failed to update flashcard either because you did not enter any values to update or because of invalid input."
+			end
+
+			render 'edit'
+		else 
+			flash[:notice] = "Oops, you cannot edit the flashcard you selected."
+			redirect_to flashcards_path
+		end
 	end
 	###############################################################################
 	def destroy
 		@flashcard = Flashcard.find(params[:id])
 		
-		unless @flashcard.nil?
-			lp = LanguagePair.find(@flashcard.language_pair_id)
-			flash[:notice] = "Successfully deleted flashcard that translates " + @flashcard.orig_word.capitalize + " from " + lp.from_lang.capitalize + " to " + lp.to_lang.capitalize
-			@flashcard.destroy 
+		if @flashcard.user_id == current_user.id 
+			unless @flashcard.nil?
+				lp = LanguagePair.find(@flashcard.language_pair_id)
+				flash[:notice] = "Successfully deleted flashcard that translates " + @flashcard.orig_word.capitalize + " from " + lp.from_lang.capitalize + " to " + lp.to_lang.capitalize
+				@flashcard.destroy 
+			else 
+				flash[:notice] = "The flashcard you are trying to delete doesn't exist!"
+			end
 		else 
-			flash[:notice] = "The flashcard you are trying to delete doesn't exist!"
+			flash[:notice] = "Oops! You cannot delete the selected flashcard."
 		end
 
 		redirect_to flashcards_path
@@ -173,6 +199,7 @@ class FlashcardsController < ApplicationController
 		if @errors.empty?
 			word_i = 0
 			flashcards_temp.each do |f|
+				f[:flashcard].user_id = current_user.id
 				f[:flashcard].save 
 
 				# Add tags.. 
@@ -207,15 +234,15 @@ class FlashcardsController < ApplicationController
 
 		tag_names.each do |tag_name|
 
-			unless UserDefinedTag.exists?(name: tag_name)
+			unless UserDefinedTag.exists?(name: tag_name, user_id: current_user.id)
 			
-				tag = UserDefinedTag.create(name: tag_name)
+				tag = UserDefinedTag.create(name: tag_name, user_id: current_user.id)
 				tags_to_add << tag 
 			
 			else
-				tag = UserDefinedTag.find_by(name: tag_name)
+				tag = UserDefinedTag.find_by(name: tag_name, user_id: current_user.id)
 
-				unless flashcard.user_defined_tags.exists?(name: tag_name)
+				unless flashcard.user_defined_tags.exists?(name: tag_name, user_id: current_user.id)
 					tags_to_add << tag 
 				end
 			

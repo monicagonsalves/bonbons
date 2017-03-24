@@ -1,8 +1,5 @@
 <h1>All User Defined Tags</h1>
-	<% if flash[:notice] %> 
-    	<div class="notice"><%= flash[:notice] %></div>
-    	<% flash[:notice] = nil %>
-	<% end %>
+<%= render partial: 'home/flash' %> 
 <table>
 	<tr>
 		<th>Name</th>

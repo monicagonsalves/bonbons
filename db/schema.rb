@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170323231156) do
+ActiveRecord::Schema.define(version: 20170324021947) do
 
   create_table "english_translations", force: :cascade do |t|
     t.string   "from_lang",   limit: 255, null: false
@@ -33,9 +33,11 @@ ActiveRecord::Schema.define(version: 20170323231156) do
     t.integer  "image_file_size",    limit: 4
     t.datetime "image_updated_at"
     t.integer  "batch_num",          limit: 4,   null: false
+    t.integer  "user_id",            limit: 4
   end
 
   add_index "flashcards", ["language_pair_id"], name: "fk_rails_0c554c5eab", using: :btree
+  add_index "flashcards", ["user_id"], name: "index_flashcards_on_user_id", using: :btree
 
   create_table "flashcards_stacks", force: :cascade do |t|
     t.integer "flashcard_id", limit: 4, null: false
@@ -72,9 +74,11 @@ ActiveRecord::Schema.define(version: 20170323231156) do
     t.string   "name",       limit: 255, null: false
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+    t.integer  "user_id",    limit: 4
   end
 
   add_index "user_defined_tags", ["name"], name: "index_user_defined_tags_on_name", using: :btree
+  add_index "user_defined_tags", ["user_id"], name: "index_user_defined_tags_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
@@ -95,4 +99,6 @@ ActiveRecord::Schema.define(version: 20170323231156) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   add_foreign_key "flashcards", "language_pairs"
+  add_foreign_key "flashcards", "users"
+  add_foreign_key "user_defined_tags", "users"
 end
