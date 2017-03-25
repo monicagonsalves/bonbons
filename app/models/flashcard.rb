@@ -48,7 +48,7 @@ def image_remote_url=(url_value)
   	#english_translation_of_word = yandex.get_english_trans(from_lang, self.orig_word)
   	lang_code = yandex.get_lang_code(from_lang)
 
-  	img_query = pixabay.find_image(self.orig_word, lang_code)
+  	img_query = pixabay.find_image(self.orig_word, lang_code, true)
 
 
   	if img_query[:has_error]

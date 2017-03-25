@@ -1,3 +1,110 @@
 // Place all the styles related to the Home controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+$bright-pink: #FF10CF; 
+body{
+	background-color: #f2f2f2 !important;
+    font-family: 'Josefin Sans', sans-serif !important;
+    font-size: 12pt !important;
+    font-weight: 600 !important; 
+}
+.body-container{
+	font-size: 18px !important; 
+	a:visited, a:link{
+		color: $bright-pink !important; 
+	}
+}
+.navbar{
+	background-color: #ececec !important;
+	border: 0 !important; 
+	padding: 8px;
+	font-weight: 600 !important; 
+	font-size: 14px;
+	font-weight: 700 !important; 
+
+	a:hover{
+		color: $bright-pink !important; 
+		background-color: #e0e0e0 !important;
+		border-radius: 10px;
+	}
+}
+.center{
+	margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
+}
+img.center-horizontally{
+   display: block;
+   margin-left: auto;
+   margin-right: auto;
+}
+ul.center-horizontally, p.center-horizontally, div.center-horizontally{
+	margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+}
+#auth-buttons {
+	a{
+		color: black !important; 
+		padding-left: 30px;
+		padding-right: 12px; 
+		padding-top: 10px;
+		padding-bottom: 10px;  
+		border-radius: 10px;
+		width: 100px;  
+		-webkit-box-shadow: 5px 5px 0px 0px rgba(0,0,0,0.15);
+		-moz-box-shadow: 5px 5px 0px 0px rgba(0,0,0,0.15);
+		box-shadow: 5px 5px 0px 0px rgba(0,0,0,0.15);
+		margin-top: 10px; 
+		font-size: 12pt !important; 
+
+		&:nth-of-type(1){
+			float: left;
+			background-color: #00D1D2;
+
+			&:hover{
+				background-color: #00eff0; 
+				text-decoration: none; 
+			}
+		}
+		&:nth-of-type(2){
+			float: right; 
+			background-color: #F95EDC; 
+
+			&:hover{
+				background-color: #fb84e4; 
+				text-decoration: none; 
+			}
+		}
+	}
+}
+.cursor:after {
+    content:"_";
+    opacity: 0;
+    animation: cursor 1s infinite;
+}
+
+@keyframes cursor {
+    0% {
+        opacity: 0;
+    }
+    40% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+#splash{
+	width: 375px; 
+}

@@ -1,2 +1,11 @@
-<h1>Bonbons</h1>
 <%= render partial: 'home/flash' %> 
+<div id="splash" class="center">
+	<%= image_tag '/images/original/sitewide/bonbons_logo.png', :width => "220px", :class => "center-horizontally"%>
+	<p id="slogan" class="cursor">Create flashcards for foreign languages with ease!</p>
+	<% unless user_signed_in? %>
+		<div id="auth-buttons" class="center-horizontally">
+	        <%= link_to 'login', new_user_session_path %>
+	        <%= link_to 'sign up', new_user_registration_path %>
+		</div>
+	<% end %>
+</div>
