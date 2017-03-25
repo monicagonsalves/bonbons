@@ -10,18 +10,20 @@
 	   		<li> Displaying <b><%= num_rows %></b> rows</li>
 	   </ul>
 
-	   	<% current_row = 0 %> 
-	   	<% @flashcards.each do |fl| %> 
-	   	    <% if current_row % num_per_row == 0 then %> 
-	   	    	<div class="flashcards-row"> <!-- START STACK ROW --> 
-	   	    <% end %>
+	   <div class="container">
+	   		<% current_row = 0 %> 
+	   		<% @flashcards.each do |fl| %> 
+	   	    	<% if current_row % num_per_row == 0 then %> 
+	   	    		<div class="row"> <!-- START STACK ROW --> 
+	   	    	<% end %>
 	   	    
 	   	    	<%= render partial: "flashcards/single_flashcard", locals: { f: fl, l: @langs[fl.id], show_view_link: true }%> 
 
-	   	    <% if (current_row % num_per_row == (num_per_row - 1)) || fl.id == @flashcards.last.id then %> 
-	   	    	</div> <!-- END STACK ROW -->
-	   	    <% end %>
-	   	    <% current_row += 1 %> 
-	   	<% end %>
+	   	    	<% if (current_row % num_per_row == (num_per_row - 1)) || fl.id == @flashcards.last.id then %> 
+	   	    		</div> <!-- END STACK ROW -->
+	   	    	<% end %>
+	   	    	<% current_row += 1 %> 
+	   		<% end %>
+	   	</div>
 
 	</div>

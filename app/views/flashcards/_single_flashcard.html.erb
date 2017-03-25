@@ -1,44 +1,77 @@
-<div class="flashcard-container">
+<div class="col-xs-4">
+	
+	<!--================FLASHCARD CODE===========================================-->
 	<div class="flashcard">
-		<h3>Original Word</h3>
-		<p><%= f.orig_word %></p>
+	    <div class="front">
+	    	<div class="side-body">
+					<p class="orig-word"><%= f.orig_word %></p>
 
-		<h3>Translation</h3>
-		<p><%= f.translation %></p>
+					<div class="image">
+						<%= image_tag f.image.url, :class => "center-horizontally"%>
+					</div>
 
-		<h3>Image</h3>
-		<%= image_tag f.image.url, :width => "300px", :height => "250px" %>
+
+			</div>
+
+			 <div class="side-footer">
+
+						<ul>
+							<li class="<%= unless show_view_link then 'hide' else '' end %>"><%= link_to 'View', flashcard_path(f)%></li>
+							<li><%= link_to 'Edit', edit_flashcard_path(f) %></li>
+							<li><%= link_to 'Delete', flashcard_path(f),
+					            method: :delete,
+					            data: { confirm: 'Are you sure?' } %></li>
+						</ul>
+
+						<%= link_to 'Flip', '', :class => 'flip'%>
+
+			 </div>
+		</div>
+
+		<div class="back hide">
+			<div class="side-body">
+				<p class="translation"><%= f.translation %></p>
+			</div>
+
+			 <div class="side-footer">
+				<ul>
+					<li class="<%= unless show_view_link then 'hide' else '' end %>"><%= link_to 'View', flashcard_path(f)%></li>
+					<li><%= link_to 'Edit', edit_flashcard_path(f) %></li>
+					<li><%= link_to 'Delete', flashcard_path(f),
+		            	method: :delete,
+		              	data: { confirm: 'Are you sure?' } %></li>
+				</ul>
+				
+				<%= link_to 'Flip', '', :class => 'flip' %>
+			 </div>
+
+		</div>
+	</div>
+
+	<div class="flashcard-tags">
+		<h3>Tags</h3>
 		<ul>
-			<li class="<%= unless show_view_link then 'hide' else '' end %>"><%= link_to 'View', flashcard_path(f)%></li>
-			<li><%= link_to 'Edit', edit_flashcard_path(f) %></li>
-			<li><%= link_to 'Delete', flashcard_path(f),
-            	  method: :delete,
-              	data: { confirm: 'Are you sure?' } %></li>
+			<li><h4>Properties</h4>
+				<ul>
+					<li>
+				   		<% langs_link_label = l.from_lang.capitalize + " to " + l.to_lang.capitalize %>
+				   		<%= link_to langs_link_label, stacks_by_langs_path(l.code.sub('-','_')) %>
+					</li>
+					<li>
+						<% batch_link_label = 'batch ' + f.batch_id.to_s %>
+						<%= link_to batch_link_label, stacks_by_batch_path(f.batch_id) %> 
+					</li>
+				</ul>
+			</li>
+			<!-- TODO: Add link to user defined tag stacks -->
+			<li><h4>User Defined Tags</h4>
+				<ul>
+					<% f.user_defined_tags.each do |t| %>
+						<li><%= link_to t.name, ''%></li>
+					<% end %>
+				</ul>
+			</li>
 		</ul>
 	</div>
-	
-	<h3>Tags</h3>
-	<ul>
-		<li><h4>Properties</h4>
-			<ul>
-				<li>
-		   			<% langs_link_label = l.from_lang.capitalize + " to " + l.to_lang.capitalize %>
-		   			<%= link_to langs_link_label, stacks_by_langs_path(l.code.sub('-','_')) %>
-				</li>
-				<li>
-					<% batch_link_label = 'batch ' + f.batch_id.to_s %>
-					<%= link_to batch_link_label, stacks_by_batch_path(f.batch_id) %> 
-				</li>
-			</ul>
-		</li>
-		<!-- TODO: Add link to user defined tag stacks -->
-		<li><h4>User Defined Tags</h4>
-			<ul>
-				<% f.user_defined_tags.each do |t| %>
-					<li><%= link_to t.name, ''%></li>
-				<% end %>
-			</ul>
-		</li>
-	</ul>
 
 </div>
