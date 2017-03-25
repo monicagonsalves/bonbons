@@ -25,6 +25,8 @@ module Bonbons
     config.autoload_paths << Rails.root.join('lib')
     config.autoload_paths << Rails.root.join('lib/yandex')
     config.autoload_paths << Rails.root.join('lib/pixabay')
+    config.assets.paths << Rails.root.join('app', 'assets', 'fonts')
+    config.assets.precompile << /\.(?:woff2|eot|woff|ttf)$/
     config.active_job.queue_adapter = :sidekiq
 
   end

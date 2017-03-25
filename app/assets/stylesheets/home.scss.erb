@@ -1,0 +1,165 @@
+// Place all the styles related to the Home controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+$bright-pink-link: #FF10CF;
+$lightest-shade-of-grey: #f2f2f2;
+$medium-shade-of-grey: #ececec;
+$darkest-shade-of-grey: #e0e0e0;
+
+/*=========================CUSTOM FONTS==========*/
+@font-face {
+  font-family: 'CanterBold';
+  font-weight: normal;
+  font-style: normal;
+  src: font-url('CanterBold.eot');
+  src: font-url('CanterBold.eot?#iefix') format('embedded-opentype'),
+       font-url('CanterBold.woff') format('woff'),
+       font-url('canter_bold-webfont.woff2') format('woff2'),
+       font-url('CanterBold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'CanterLight';
+  font-weight: normal;
+  font-style: normal;
+  src: font-url('CanterLight.eot');
+  src: font-url('CanterLight.eot?#iefix') format('embedded-opentype'),
+       font-url('CanterLight.woff') format('woff'),
+       font-url('CanterLight.woff2') format('woff2'),
+       font-url('CanterLight.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Voltaire';
+  font-weight: normal;
+  font-style: normal;
+  src: font-url('voltaire-regular-webfont.eot');
+  src: font-url('voltaire-regular-webfont.eot?#iefix') format('embedded-opentype'),
+       font-url('voltaire-regular-webfont.woff') format('woff'),
+       font-url('voltaire-regular-webfont.woff2') format('woff2'),
+       font-url('voltaire-regular-webfont.ttf') format('truetype');
+}
+
+body{
+	background-color: $lightest-shade-of-grey !important;
+    font-family: 'Josefin Sans', sans-serif !important;
+}
+.body-container{
+	font-size: 18px !important; 
+	a:visited, a:link{
+		color: $bright-pink-link !important; 
+	}
+}
+
+.dropdown-menu{
+	background-color:  $medium-shade-of-grey !important; 
+	li{
+		margin: 5px;
+	}
+}
+.navbar-brand{
+	font-family: 'CanterBold' !important;
+	font-size: 28px !important;
+	color: black !important; 
+	text-shadow: -2px 2px 0px rgba(150, 150, 150, 0.55) !important;
+}
+.navbar{
+	background-color: $medium-shade-of-grey !important;
+	border: 0 !important; 
+	padding: 8px;
+	font-weight: 600 !important; 
+	font-size: 13px;
+	font-weight: 700 !important; 
+
+	a:hover{
+		color: $bright-pink-link !important; 
+		background-color: $darkest-shade-of-grey !important;
+		border-radius: 10px;
+	}
+}
+
+#auth-buttons {
+	a{
+		color: black !important; 
+		padding-left: 30px;
+		padding-right: 12px; 
+		padding-top: 10px;
+		padding-bottom: 10px;  
+		border-radius: 10px;
+		width: 100px;  
+		-webkit-box-shadow: 5px 5px 0px 0px rgba(0,0,0,0.15);
+		-moz-box-shadow: 5px 5px 0px 0px rgba(0,0,0,0.15);
+		box-shadow: 5px 5px 0px 0px rgba(0,0,0,0.15);
+		margin-top: 10px; 
+		font-size: 12pt !important;
+
+		&:nth-of-type(1){
+			float: left;
+			background-color: #00D1D2; /* A candy blue */
+
+			&:hover{
+				background-color: #00eff0; /* Lighter shade of above blue */
+				text-decoration: none; 
+			}
+		}
+		&:nth-of-type(2){
+			float: right; 
+			background-color: #F95EDC; /* A candy pink */
+
+			&:hover{
+				background-color: #fb84e4; /* Lighter shade of above pink */
+				text-decoration: none; 
+			}
+		}
+	}
+}
+/*=========================CENTERING STYLES===================*/
+.center{
+	margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
+}
+img.center-horizontally{
+   display: block;
+   margin-left: auto;
+   margin-right: auto;
+}
+ul.center-horizontally, p.center-horizontally, div.center-horizontally{
+	margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+}
+
+/*=========================BLINKING CURSOR ANIMATION==========*/
+.cursor:after {
+    content:"_";
+    opacity: 0;
+    animation: cursor 1s infinite;
+}
+
+@keyframes cursor {
+    0% {
+        opacity: 0;
+    }
+    40% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+/* Need to set the width to make sure the typing animation doesn't make
+the auth buttons stagger */
+#splash{
+	width: 375px; 
+}
