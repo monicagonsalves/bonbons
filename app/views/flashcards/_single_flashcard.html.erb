@@ -63,7 +63,7 @@
 				<li><%= link_to t.name, stacks_by_user_defined_tag_path(t)%></li>
 			<% end %>
 
-			<li><a href="<%= stacks_by_langs_path(l.code.sub('-','_')) %>"><%= (l.from_lang.capitalize + " to " + l.to_lang.capitalize).strip %></a></li>
+			<li><a href="<%= stacks_by_langs_path(l.code.sub('-','_')) %>"><%= (l.from_lang + " to " + l.to_lang).strip %></a></li>
 			<li><a href="<%= stacks_by_batch_path(f.batch_id)%>"><%=('batch ' + f.batch_id.to_s).strip %></a></li>
 		</ul>
 	</div>
