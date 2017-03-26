@@ -6,7 +6,7 @@
 .flashcard-container{
   perspective: 800px;
 }
-.flashcard{
+.flashcard-container .flashcard{
   transform-style: preserve-3d;
   transition: all 1.0s linear;
 }
