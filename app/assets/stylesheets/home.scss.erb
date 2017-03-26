@@ -86,7 +86,10 @@ body{
 }
 .navbar{
 	background-color: $medium-shade-of-grey !important;
-	border: 0 !important; 
+	border-right: 0 !important;
+  border-left: 0 !important; 
+  border-top: 0 !important; 
+  border-bottom: 1px solid #dddddd !important; 
 	padding: 8px;
 	font-weight: 600 !important; 
 	font-size: 13px;
@@ -192,20 +195,88 @@ the auth buttons stagger */
 }
 
 .footer {
-  position: fixed;
+  /* Forces the footer to stay at the bottom of the page */ 
+  position: absolute;
   bottom: 0;
   width: 100%;
   /* Set the fixed height of the footer here */
   height: 60px;
   line-height: 60px; /* Vertically center the text there */
-  background-color: $lightest-shade-of-grey;
+  background-color: $medium-shade-of-grey !important;
+  border-right: 0 !important;
+  border-left: 0 !important; 
+  border-bottom: 0 !important; 
+  border-top: 1px solid #dddddd !important; 
+
   text-align: center; 
 
   a{
-    &:hover, &:visited{
-      color: $bright-pink-link;
-      text-decoration: none; 
+    &:hover, &:visited, &:link{
+      color: $bright-pink-link; 
     }
+  }
+
+  .glyphicon{
+    padding-left: 5px;
+    padding-right: 5px;
   }
 }
 
+.search-form{
+  /* Without this, the search form doesn't line up with the rest 
+    of the elements in the navbar */
+  padding-top: 8px;
+  padding-right: 8px; 
+}
+/* Expanding Search form code. From here: 
+   http://bootsnipp.com/snippets/featured/expanding-search-button-in-css */
+.search-form .form-group {
+  float: right !important;
+  transition: all 0.35s, border-radius 0s;
+  width: 32px;
+  height: 32px;
+  background-color: #f8f8f8;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+  border-radius: 25px;
+  border: 1px solid #ccc;
+}
+.search-form .form-group input.form-control {
+  padding-right: 20px;
+  border: 0 none;
+  background: transparent;
+  box-shadow: none;
+  display:block;
+}
+.search-form .form-group input.form-control::-webkit-input-placeholder {
+  display: none;
+}
+.search-form .form-group input.form-control:-moz-placeholder {
+  /* Firefox 18- */
+  display: none;
+}
+.search-form .form-group input.form-control::-moz-placeholder {
+  /* Firefox 19+ */
+  display: none;
+}
+.search-form .form-group input.form-control:-ms-input-placeholder {
+  display: none;
+}
+.search-form .form-group:hover,
+.search-form .form-group.hover {
+  width: 100%;
+  border-radius: 4px 25px 25px 4px;
+}
+.search-form .form-group span.form-control-feedback {
+  position: absolute;
+  top: -1px;
+  right: -2px;
+  z-index: 2;
+  display: block;
+  width: 34px;
+  height: 34px;
+  line-height: 34px;
+  text-align: center;
+  color: #a0a0a0;
+  left: initial;
+  font-size: 14px;
+}

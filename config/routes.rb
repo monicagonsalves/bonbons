@@ -33,6 +33,7 @@ Rails.application.routes.draw do
  resources :user_defined_tags, only:[:edit, :update, :destroy, :new, :create, :index]
  resources :tags, only: [:index]
 
+ get '/credits', to: 'credits#index', as: :credits
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'

@@ -3,7 +3,7 @@
 	<!--================FLASHCARD CODE===========================================-->
 	<div class="flashcard-container">
 		<div class="flashcard" id="<%= 'card_' + f.id.to_s %>">
-		    <div class="face front">
+		    <div class="face front <%= 'card_' + f.id.to_s %>">
 		    	<div class="side-body">
 						<p class="orig-word"><%= f.orig_word %></p>
 
@@ -25,14 +25,14 @@
 						</ul>
 
 					<ul class="right"> 
-						<li class='flip' data-which-face='back' data-card-id="<%= 'card_' + f.id.to_s %>">Hover over to flip</li>
-						<li><a href="" id="tag-link">tags</a><span class="glyphicon glyphicon-tags" aria-hidden="true"></span></li>
+						<li class='flip'>Click to flip</li>
+						<li><a href="" class="tag-link" data-card-id="<%= 'card_' + f.id.to_s %>">Tags</a><span class="glyphicon glyphicon-tags" aria-hidden="true"></span></li>
 					</ul>
 
 				 </div>
 			</div>
 
-			<div class="face back">
+			<div class="face back <%= 'card_' + f.id.to_s %>">
 				<div class="side-body">
 					<p class="translation"><%= f.translation %></p>
 				</div>
@@ -47,8 +47,8 @@
 					</ul>
 
 					<ul class="right"> 
-						<li class='flip' data-which-face='back' data-card-id="<%= 'card_' + f.id.to_s %>">Hover over to flip</li>
-						<li><a href="" id="tag-link">tags</a><span class="glyphicon glyphicon-tags" aria-hidden="true"></span></li>
+						<li class='flip'>Click to flip</li>
+						<li><a href="" class="tag-link" data-card-id="<%= 'card_' + f.id.to_s %>">Tags</a><span class="glyphicon glyphicon-tags" aria-hidden="true"></span></li>
 					</ul>
 				 </div>
 
@@ -58,19 +58,13 @@
 
 	<div class="flashcard-tags">
 		<div class="clearer"></div>
-		<ul class="tag-list hide">
+		<ul class="tag-list <%= 'card_' + f.id.to_s %>">
 			<% f.user_defined_tags.order(:name).each do |t| %>
 				<li><%= link_to t.name, stacks_by_user_defined_tag_path(t)%></li>
 			<% end %>
 
-			<li>
-				 <% langs_link_label = l.from_lang.capitalize + " to " + l.to_lang.capitalize %>
-				 <%= link_to langs_link_label, stacks_by_langs_path(l.code.sub('-','_')) %> </li>
-			<li>
-				<% batch_link_label = 'batch ' + f.batch_id.to_s %>
-				<%= link_to batch_link_label, stacks_by_batch_path(f.batch_id) %> 
-			</li>
-				
+			<li><a href="<%= stacks_by_langs_path(l.code.sub('-','_')) %>"><%= (l.from_lang.capitalize + " to " + l.to_lang.capitalize).strip %></a></li>
+			<li><a href="<%= stacks_by_batch_path(f.batch_id)%>"><%=('batch' + f.batch_id.to_s).strip %></a></li>
 		</ul>
 	</div>
 
