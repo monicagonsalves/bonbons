@@ -40,6 +40,11 @@ $darkest-shade-of-grey: #e0e0e0;
        font-url('voltaire-regular-webfont.ttf') format('truetype');
 }
 
+html {
+  position: relative;
+  min-height: 100%;
+}
+
 body{
 	background-color: $lightest-shade-of-grey !important;
     font-family: 'Josefin Sans', sans-serif !important;
@@ -73,6 +78,11 @@ body{
 	font-size: 28px !important;
 	color: black !important; 
 	text-shadow: -2px 2px 0px rgba(150, 150, 150, 0.55) !important;
+  background-image: url("/images/original/sitewide/candy_icon.png");
+  background-size: 54px;
+  background-repeat: no-repeat;
+  padding-left: 60px !important; 
+  
 }
 .navbar{
 	background-color: $medium-shade-of-grey !important;
@@ -176,3 +186,26 @@ the auth buttons stagger */
   font-family: 'Josefin Sans', sans-serif !important; 
   font-size: 18px !important; 
 }
+
+.main{
+  padding-bottom: 130px; 
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  line-height: 60px; /* Vertically center the text there */
+  background-color: $lightest-shade-of-grey;
+  text-align: center; 
+
+  a{
+    &:hover, &:visited{
+      color: $bright-pink-link;
+      text-decoration: none; 
+    }
+  }
+}
+

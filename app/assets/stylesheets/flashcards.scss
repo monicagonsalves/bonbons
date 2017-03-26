@@ -1,67 +1,156 @@
 // Place all the styles related to the Flashcard controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+/*=========================================Flashcard flip animation code ============== */
+.flashcard-container{
+  perspective: 800px;
+}
 .flashcard{
+  transform-style: preserve-3d;
+  transition: all 1.0s linear;
+}
 
-	.front,.back{
-		border: 1px solid #bcbcbc; 
-		background-color: white; 
-		height: 400px; 
-		padding: 10px;
+.flashcard:hover .front{
+  transform: rotateY(-180deg);
+}
 
-		-webkit-box-shadow: -8px 8px 4px 1px rgba(0,0,0,0.10);
-		-moz-box-shadow: -8px 8px 4px 1px rgba(0,0,0,0.10);
-		box-shadow: -8px 8px 4px 1px rgba(0,0,0,0.10);
-	}
+.flashcard:hover .back {
+ transform: rotateY(0deg);
+}
 
-	.image{
-		height: 14em; 
+.face {
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  transition: 0.5s;
+}
 
-		img{
-			max-width: 100%;
-			max-height: 100%;
-			object-fit: cover; 
+/* States of the faces before card is flipped! */
+.face.front {
+  transform: rotateY(0deg);
+} 
+
+.face.back {
+  transform: rotateY(180deg); 
+}
+
+/* Transitions the faces go through when the card is flipped! */
+.front-flip{
+	transform: rotateY(-180deg);
+}
+.back-flip{
+	transform: rotateY(0deg);
+}
+/*======================================== Flashcard styles ========================== */
+.flashcard-container{
+	position: relative; /* Part of flip animation code */
+	height: 400px; 
+	margin-bottom: 20px; 
+
+	.flashcard{
+
+		/* Part of flip animation code. */
+		position: absolute; 
+		width: 100%;
+  		height: 100%;
+  		text-align: center;
+  		/********************************/
+
+		.face{
+			position: absolute;
+			width: 100%;
+			height: 100%;
+		}
+
+		.front,.back{
+			border: 1px solid #bcbcbc; 
+			background-color: white; 
+			padding: 10px;
+			font-family: 'Josefin Sans', sans-serif !important; 
+
+
+			-webkit-box-shadow: -8px 8px 4px 1px rgba(0,0,0,0.10);
+			-moz-box-shadow: -8px 8px 4px 1px rgba(0,0,0,0.10);
+			box-shadow: -8px 8px 4px 1px rgba(0,0,0,0.10);
+		}
+
+		.image{
+			height: 14em; 
+
+			img{
+				max-width: 100%;
+				max-height: 100%;
+				object-fit: cover; 
+			}
+		}
+
+		.orig-word{
+			font-size: 2em;
+			text-align: center;  
+		}
+
+		.translation {
+			font-size: 2em;
+			text-align: center;
+			line-height: 10em;   
 		}
 	}
 
-	.orig-word{
-		font-size: 2em;
-		text-align: center;  
+	.side-body{
+		height: 95%;
 	}
 
-	.translation {
-		font-size: 2em;
-		text-align: center;
-		line-height: 10em;   
-	}
-}
+	.side-footer { 
+		height: 5%;
 
-.side-body{
-	height: 95%; 
-}
-
-.side-footer { 
-	height: 5%;
-	ul {
-		float: left; 
-		margin-left: -2.5em;
-
-		li {
-
-			display: inline-block; 
-			padding-right: 5px;
+		ul{
+			li{
+				display: inline-block; 
+				padding-right: 5px; 
+			}
 		}
-	}
 
-	 .flip { 
-		float: right; 
+		.left{
+			float: left; 
+			margin-left: -2.5em;
+		}
+
+		.right{
+			float: right; 
+
+			.glyphicon{
+				padding-left: 5px; 
+			}
+		}
 	}
 }
 
 .edit-flashcard{
-	border: 1px solid black;
-	padding: 10px;
-	width: 30%;
+	border: 1px solid #bcbcbc; 
+	background-color: white; 
+	padding: 2em;
+
+
+	-webkit-box-shadow: -8px 8px 4px 1px rgba(0,0,0,0.10);
+	-moz-box-shadow: -8px 8px 4px 1px rgba(0,0,0,0.10);
+	box-shadow: -8px 8px 4px 1px rgba(0,0,0,0.10);
+
+	.flashcard{
+		.image{
+			width: 100% !important;  
+		}
+		.orig-word{
+			text-align: center; 
+			font-size: 3em; 
+		}
+	}
+	input[type='text'], input[type='submit']{
+		width: 100% !important; 
+	}
+
+	.orig-word {
+		font-family: 'Josefin Sans', sans-serif !important; 
+	}
 }
 .hide{
 	display: none; 

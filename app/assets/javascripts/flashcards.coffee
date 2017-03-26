@@ -18,4 +18,5 @@ ready = ->
 
     current_num_words = end_i
 
+
 $(document).on('turbolinks:load', ready) 
