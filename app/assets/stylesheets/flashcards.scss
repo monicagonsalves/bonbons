@@ -129,10 +129,11 @@
 	background-color: #e5e5e5 !important;
 	padding: 1em; 
 	display: none; 
+	list-style: none; 
 
 	li {
-		display: inline-block; 
-		&:after {
+		display: inline; 
+		&:not(:last-of-type):after {
 			content: ', '
 		}
 	}
