@@ -4,6 +4,11 @@
 	<div class="flashcard-container">
 		<div class="flashcard" id="<%= 'card_' + f.id.to_s %>">
 		    <div class="face front <%= 'card_' + f.id.to_s %>">
+		    	<div class="side-header">
+					<a data-confirm="Are you sure?" rel="nofollow" data-method="delete" href="<%= flashcard_path(f) %>" class="delete-link">
+						<span class="glyphicon glyphicon-remove-circle delete-link" aria-hidden="true">
+					</a>
+		    	</div>
 		    	<div class="side-body">
 						<p class="orig-word"><%= f.orig_word %></p>
 
@@ -19,9 +24,6 @@
 						<ul class="left">
 							<li class="<%= unless show_view_link then 'hide' else '' end %>"><%= link_to 'View', flashcard_path(f) %></li>
 							<li><%= link_to 'Edit', edit_flashcard_path(f) %></li>
-							<li><%= link_to 'Delete', flashcard_path(f),
-			            			method: :delete,
-			              			data: { confirm: 'Are you sure?' }  %></li>
 						</ul>
 
 					<ul class="right"> 
@@ -33,6 +35,11 @@
 			</div>
 
 			<div class="face back <%= 'card_' + f.id.to_s %>">
+				<div class="side-header">
+					<a data-confirm="Are you sure?" rel="nofollow" data-method="delete" href="<%= flashcard_path(f) %>" class='delete-link'>
+						<span class="glyphicon glyphicon-remove-circle delete-link" aria-hidden="true">
+					</a>
+				</div>
 				<div class="side-body">
 					<p class="translation"><%= f.translation %></p>
 				</div>
@@ -41,9 +48,6 @@
 					<ul class="left">
 						<li class="<%= unless show_view_link then 'hide' else '' end %>"><%= link_to 'View', flashcard_path(f) %></li>
 						<li><%= link_to 'Edit', edit_flashcard_path(f) %></li>
-						<li><%= link_to 'Delete', flashcard_path(f),
-			            	method: :delete,
-			              	data: { confirm: 'Are you sure?' } %></li>
 					</ul>
 
 					<ul class="right"> 

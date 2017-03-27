@@ -24,7 +24,7 @@ ready = ->
   # is associated with the flashcard class. 
   $('.flashcard-container .flashcard').on 'click', (event) ->
     # Do not want to flip the card when the user clicks a link!
-    unless $(event.target).is('a')
+    unless $(event.target).is('a') or $(event.target).hasClass('delete-link')
       $(this).toggleClass('front-flip')
 
   $('.tag-link').on 'click', (event) -> 

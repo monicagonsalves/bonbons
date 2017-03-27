@@ -96,8 +96,22 @@
 		}
 	}
 
+	.side-header {
+		height: 5%; 
+		a{
+			float: right; 
+			&:link, &:visited{
+				color: #707070 !important; 
+			}
+
+			&:hover{
+				color: #FF56D3 !important; 
+			}
+		}
+	}
+
 	.side-body{
-		height: 95%;
+		height: 90%;
 	}
 
 	.side-footer { 
