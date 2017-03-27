@@ -56,27 +56,18 @@
                   <li><a href="#">Print Stack</a></li>
 	              </ul>
 	            </li>
+              <li><a href="">Help</a></li>
 	        <% end %> 
 
           </ul>
           <ul class="nav navbar-nav navbar-right">
           	<% unless user_signed_in? %>
-	            <li><%= link_to 'login', new_user_session_path %></li>
+              <%= link_to 'login', new_user_session_path %></li>
 	            <li><%= link_to 'sign up', new_user_registration_path %></li>
 	        <% else %>
-            <li>
-                  <form action="" class="search-form">
-                    <div class="form-group has-feedback">
-                      <label for="search" class="sr-only">Search</label>
-                      <input type="text" class="form-control" name="search" id="search" placeholder="search">
-                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
-                      </div>
-                  </form>
-                
-            </li>
-				<li><%= link_to current_user.email, 'user_profile' %></li>
-				<li><%= link_to 'logout', destroy_user_session_path,
-            			  method: :delete %></li>
+				      <li><%= link_to current_user.email, 'user_profile' %></li>
+				      <li><%= link_to 'logout', destroy_user_session_path,
+            			     method: :delete %></li>
 	        <% end %> 
           </ul>
         </div><!--/.nav-collapse -->

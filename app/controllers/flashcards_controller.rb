@@ -3,104 +3,119 @@ class FlashcardsController < ApplicationController
 	
 	###############################################################################
 	def show
-		@flashcard = Flashcard.find(params[:id])
+		@flashcard = Flashcard.find_by(id: params[:id])
 
-		unless @flashcard.user_id == current_user.id 
-			flash[:notice] = "Sorry, but you do not have access to selected flashcard."
-			redirect_to flashcards_path 
-		else
-			@langs = LanguagePair.find(@flashcard.language_pair_id)
+		unless @flashcard.nil? 
+			unless @flashcard.user_id == current_user.id 
+				flash[:error] = "Sorry, but you do not have access to selected flashcard."
+				redirect_to flashcards_path 
+			else
+				@langs = LanguagePair.find(@flashcard.language_pair_id)
+			end
+		else 
+			redirect_to flashcards_path
 		end
 
 	end 
 	###############################################################################
 	def edit
-		@flashcard = Flashcard.find(params[:id])
+		@flashcard = Flashcard.find_by(id: params[:id])
 
-		if @flashcard.user_id == current_user.id 
-			@langs = LanguagePair.find(@flashcard.language_pair_id)
+		unless @flashcard.nil?
+			if @flashcard.user_id == current_user.id 
+				@langs = LanguagePair.find(@flashcard.language_pair_id)
+			else 
+				flash[:error] = "Oops, you cannot edit the flashcard you selected."
+				redirect_to flashcards_path
+			end
 		else 
-			flash[:notice] = "Oops, you cannot edit the flashcard you selected."
+			flash[:error] = "The flashcard you are trying to edit does not exist."
 			redirect_to flashcards_path
 		end
 	end 
 	###############################################################################
 	def update
-		@flashcard = Flashcard.find(params[:id])
+		@flashcard = Flashcard.find_by(id: params[:id])
 
-		if @flashcard.user_id == current_user.id 
+		unless @flashcard.nil? 
+			if @flashcard.user_id == current_user.id 
 
-			@langs = LanguagePair.find(@flashcard.language_pair_id)
-			updated_flashcard = false 
-			msg = ""
-			
-			unless @flashcard.translation == params[:translation]
-				@flashcard.translation = params[:translation].downcase
-				msg = "updated translation."
-				updated_flashcard = true 
-			end
-
-			unless params[:image].nil?
-				@flashcard.image = params[:image]
-				msg = "updated image."
-				updated_flashcard = true 
-			end
-
-			unless params[:tags].empty?
-				# Split string into an array, and strip off the whitespace
-				# from each element. Finally, make each tag all lowercase. 
-				updated_flashcard = assoc_tags_with_flashcard(params[:tags], @flashcard)
-				msg = "associated flashcard with tags " + params[:tags]
-			end 
-
-			unless params[:disassoc_tag].nil? 
-				tags_to_disassoc = []
-				params[:disassoc_tag].each do |tag_name|
-					if UserDefinedTag.exists?(name: tag_name)  
-						tags_to_disassoc << UserDefinedTag.find_by(name: tag_name)
-					end 
-				end
-
-				unless tags_to_disassoc.empty?
-					@flashcard.user_defined_tags.destroy(tags_to_disassoc)
-					msg = "disassociated flashcard with tags " + params[:disassoc_tag].map(&:downcase).join(', ')
+				@langs = LanguagePair.find(@flashcard.language_pair_id)
+				updated_flashcard = false 
+				msg = []
+				
+				unless @flashcard.translation == params[:translation]
+					old_translation = @flashcard.translation
+					@flashcard.translation = params[:translation].downcase
+					msg << "updated translation from " + old_translation.downcase + " to " + params[:translation].downcase
 					updated_flashcard = true 
 				end
-			end
 
-
-			if updated_flashcard
-				if @flashcard.valid?
-					@flashcard.save
+				unless params[:image].nil?
+					@flashcard.image = params[:image]
+					msg << "updated image"
+					updated_flashcard = true 
 				end
-				flash[:notice] = "Successfully " + msg
-			else
-				flash[:notice] = "Failed to update flashcard either because you did not enter any values to update or because of invalid input."
-			end
 
-			render 'edit'
-		else 
-			flash[:notice] = "Oops, you cannot edit the flashcard you selected."
+				unless params[:tags].empty?
+					# Split string into an array, and strip off the whitespace
+					# from each element. Finally, make each tag all lowercase. 
+					updated_flashcard = assoc_tags_with_flashcard(params[:tags], @flashcard)
+					msg << "associated flashcard with tag(s) " + params[:tags].split(',').map(&:strip).map(&:downcase).map(&:singularize).to_sentence
+				end 
+
+				unless params[:disassoc_tag].nil? 
+					tags_to_disassoc = []
+					params[:disassoc_tag].each do |tag_name|
+						if UserDefinedTag.exists?(name: tag_name)  
+							tags_to_disassoc << UserDefinedTag.find_by(name: tag_name)
+						end 
+					end
+
+					unless tags_to_disassoc.empty?
+						@flashcard.user_defined_tags.destroy(tags_to_disassoc)
+						msg << "disassociated flashcard with tag(s) " + params[:disassoc_tag].map(&:downcase).to_sentence
+						updated_flashcard = true 
+					end
+				end
+
+
+				if updated_flashcard
+					if @flashcard.valid?
+						@flashcard.save
+					end
+					flash[:success] = "Successfully " + msg.to_sentence
+				else
+					flash[:error] = "Failed to update flashcard either because you did not enter any values to update or because of invalid input."
+				end
+
+				render 'edit'
+			else 
+				flash[:error] = "Oops, you cannot edit the flashcard you selected."
+				redirect_to flashcards_path
+			end
+		else
+			flash[:error] = "Oops, the flashcard you are trying to edit doesn't exist."
 			redirect_to flashcards_path
 		end
 	end
 	###############################################################################
 	def destroy
-		@flashcard = Flashcard.find(params[:id])
+		@flashcard = Flashcard.find_by(id: params[:id])
 		
 		if @flashcard.user_id == current_user.id 
 			unless @flashcard.nil?
 				lp = LanguagePair.find(@flashcard.language_pair_id)
-				flash[:notice] = "Successfully deleted flashcard that translates " + @flashcard.orig_word.capitalize + " from " + lp.from_lang.capitalize + " to " + lp.to_lang.capitalize
+				flash[:success] = "Successfully deleted flashcard that translates " + @flashcard.orig_word.downcase + " from " + lp.from_lang.capitalize + " to " + lp.to_lang.capitalize
 				@flashcard.destroy 
 			else 
-				flash[:notice] = "The flashcard you are trying to delete doesn't exist!"
+				flash[:error] = "The flashcard you are trying to delete doesn't exist!"
 			end
 		else 
-			flash[:notice] = "Oops! You cannot delete the selected flashcard."
+			flash[:error] = "Oops! You cannot delete the selected flashcard."
 		end
-
-		redirect_to flashcards_path
+		
+		redirect_to :back
 	end 
 	###############################################################################
 	def new_batch
@@ -127,6 +142,9 @@ class FlashcardsController < ApplicationController
 				@errors << "Cannot translate words from " + params[:from_lang] + " to " + params[:to_lang]
 			else 			
 				flashcards_temp = []
+
+				success_words = []
+				failed_words = []
 				
 				params[:word].each do |i, word|
 					# Generate a new flashcard object
@@ -159,6 +177,7 @@ class FlashcardsController < ApplicationController
 							flashcards_temp.last[:flashcard].translation = "Could not translate word!"
 							flashcards_temp.last[:flashcard].gender = "n"
 							finished_filling_out_flashcard = true 
+							failed_words << word
 						else 
 							# If you get here, then everything was fine with the lookup. Now we are 
 							# going to attempt to access the pixabay api and find an image. 
@@ -173,6 +192,7 @@ class FlashcardsController < ApplicationController
 									flashcards_temp.last[:tag_names] = flashcards_temp.last[:tag_names] + translation["pos"]
 								end 
 
+								success_words << word
 								finished_filling_out_flashcard = true
 							end  
 						end
@@ -220,7 +240,14 @@ class FlashcardsController < ApplicationController
 				word_i = word_i + 1
 			end
 
-			flash[:notice] = "Successfully created the batch you are viewing!"
+			unless success_words.empty?
+				flash[:success] = "Successfully created flashcard(s) that translate " + success_words.to_sentence + " from " + params[:from_lang].capitalize + " to " + params[:to_lang].capitalize + "."
+			end
+
+			unless failed_words.empty?
+				flash[:error] = "Failed to translate " + failed_words.to_sentence + " from " + params[:from_lang].capitalize + " to " + params[:to_lang].capitalize + ". However, we created dummy flashcard(s) that you can edit with the correct information."
+			end 
+
 			redirect_to stacks_by_batch_path(batch.id)
 		else
 			render 'new_batch'

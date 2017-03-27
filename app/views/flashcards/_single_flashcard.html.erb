@@ -5,7 +5,7 @@
 		<div class="flashcard" id="<%= 'card_' + f.id.to_s %>">
 		    <div class="face front <%= 'card_' + f.id.to_s %>">
 		    	<div class="side-header">
-					<a data-confirm="Are you sure?" rel="nofollow" data-method="delete" href="<%= flashcard_path(f) %>" class="delete-link">
+					<a data-confirm="Are you sure?" rel="nofollow" data-method="delete" href="<%= flashcard_path(f) %>" class="delete-link" data-toggle="tooltip" data-placement="bottom" title="Delete">
 						<span class="glyphicon glyphicon-remove-circle delete-link" aria-hidden="true">
 					</a>
 		    	</div>
@@ -36,7 +36,7 @@
 
 			<div class="face back <%= 'card_' + f.id.to_s %>">
 				<div class="side-header">
-					<a data-confirm="Are you sure?" rel="nofollow" data-method="delete" href="<%= flashcard_path(f) %>" class='delete-link'>
+					<a data-confirm="Are you sure?" rel="nofollow" data-method="delete" href="<%= flashcard_path(f) %>" class='delete-link' data-toggle="tooltip" data-placement="bottom" title="Delete">
 						<span class="glyphicon glyphicon-remove-circle delete-link" aria-hidden="true">
 					</a>
 				</div>
