@@ -32,17 +32,24 @@
 					</li>
 				</ul>
 				<h4>User Defined Tags</h4>
-				<ul>
+				<p>To delete a tag, click the checkbox to the left of the tag.</p>
+				<ul class="user-defined-tags">
 					
 					<% @flashcard.user_defined_tags.each do |t| %>
 						<li>
-							<%= link_to t.name.capitalize, user_defined_tag_stack_path(t) %> 
 							<%= check_box_tag "disassoc_tag[]", t.name %>
+							<%= link_to t.name.capitalize, user_defined_tag_stack_path(t) %> 
 						</li>
 					<% end %>
 				</ul>
 			    
-			    <p class="instructions">To add tags, enter them as a comma seperated list in the textfield below. <p class="example"><h4>Example</h4> animal, noun</p></p>
+			    <p class="instructions">
+			    	<p class="example">
+			    		<h4>Add Tags</h4>
+			    		<p>To add tags, enter them as a comma seperated list in the textfield below.</p>
+			    		<p><i>Example: </i>animal, noun</p>
+			    	</p>
+			    </p>
 				<%= text_field_tag :tags %>
 		  <%= submit_tag("Edit!") %>
 	  </div>

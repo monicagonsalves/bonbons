@@ -165,7 +165,15 @@
 	.orig-word {
 		font-family: 'Josefin Sans', sans-serif !important; 
 	}
+
+	.user-defined-tags{
+
+		li{
+			display: inline-block; 
+		}
+	}
 }
+
 .hide{
 	display: none; 
 }
