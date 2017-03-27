@@ -12,7 +12,7 @@ class Flashcard < ActiveRecord::Base
 	# the content type you expect. 
 	#----------------------------------------------------------------------#
 	validates_attachment_content_type :image, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf"]
-	validates :orig_word, uniqueness: { scope: [:language_pair_id, :user_id], message: "Flashcard already exists."}
+	validates :orig_word, uniqueness: { scope: [:language_pair_id, :user_id], message: "Flashcard already exists for "}
 
 	#-------------------------Associations---------------------------------#
 	belongs_to :language_pair

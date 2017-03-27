@@ -55,7 +55,7 @@ class StacksController < ApplicationController
 			stack_title = 'All flashcards from batch ' + params[:id]
 			generate_stack(stack_title)
 		else 
-			flash[:notice] = "Cannot retrieve stack by batch number given."
+			flash[:error] = "Cannot retrieve stack by batch number given."
 			redirect_to stacks_index_path
 		end
 	end 
@@ -68,7 +68,7 @@ class StacksController < ApplicationController
 			stack_title = 'All flashcards from ' + @language_pair.from_lang.capitalize + " to " + @language_pair.to_lang.capitalize
 			generate_stack(stack_title)
 		else 
-			flash[:notice] = "Cannot retrieve stack by language pair given."
+			flash[:error] = "Cannot retrieve stack by language pair given."
 			redirect_to stacks_index_path
 		end  
 		
@@ -82,7 +82,7 @@ class StacksController < ApplicationController
 			stack_title = "All flashcards with tag " + @tag.name
 			generate_stack(stack_title)
 		else 
-			flash[:notice] = "Cannot retrieve stack by tag given."
+			flash[:error] = "Cannot retrieve stack by tag given."
 			redirect_to stacks_index_path
 		end 
 	end
@@ -103,7 +103,7 @@ class StacksController < ApplicationController
 			@stack_title =  @language_pair.from_lang.capitalize + " to " + @language_pair.to_lang.capitalize
 			destroy_stack
 		else 
-			flash[:notice] = "Cannot delete stack."
+			flash[:error] = "Cannot delete stack."
 			redirect_to stacks_index_path
 		end
 	end
@@ -116,7 +116,7 @@ class StacksController < ApplicationController
 			@stack_title = "batch " + params[:id]
 			destroy_stack
 		else 
-			flash[:notice] = "Cannot delete stack."
+			flash[:error] = "Cannot delete stack."
 			redirect_to stacks_index_path
 		end 
 
@@ -130,7 +130,7 @@ class StacksController < ApplicationController
 			@stack_title = " tag " + @tag.name 
 			destroy_stack
 		else 
-			flash[:notice] = "Cannot delete stack."
+			flash[:error] = "Cannot delete stack."
 			redirect_to stacks_index_path
 		end
 	end

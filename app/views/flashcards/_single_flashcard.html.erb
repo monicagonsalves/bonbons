@@ -1,13 +1,11 @@
-<div class="<%= col_class%>">
+<div class="<%= col_class %>" id="<%= 'card_' + f.id.to_s + '_top'%>">
 	
 	<!--================FLASHCARD CODE===========================================-->
 	<div class="flashcard-container">
 		<div class="flashcard" id="<%= 'card_' + f.id.to_s %>">
 		    <div class="face front <%= 'card_' + f.id.to_s %>">
 		    	<div class="side-header">
-					<a data-confirm="Are you sure?" rel="nofollow" data-method="delete" href="<%= flashcard_path(f) %>" class="delete-link" data-toggle="tooltip" data-placement="bottom" title="Delete">
-						<span class="glyphicon glyphicon-remove-circle delete-link" aria-hidden="true">
-					</a>
+					<%= render partial: "flashcards/flashcard_header", locals: { fl: f }%> 
 		    	</div>
 		    	<div class="side-body">
 						<p class="orig-word"><%= f.orig_word %></p>
@@ -21,39 +19,21 @@
 
 				 <div class="side-footer">
 
-						<ul class="left">
-							<li class="<%= unless show_view_link then 'hide' else '' end %>"><%= link_to 'View', flashcard_path(f) %></li>
-							<li><%= link_to 'Edit', edit_flashcard_path(f) %></li>
-						</ul>
-
-					<ul class="right"> 
-						<li class='flip'>Click to flip</li>
-						<li><a href="" class="tag-link" data-card-id="<%= 'card_' + f.id.to_s %>">Toggle tags</a><span class="glyphicon glyphicon-tags" aria-hidden="true"></span></li>
-					</ul>
+				 	<%= render partial: "flashcards/flashcard_footer", locals: { fl: f, show_vl: show_view_link }%> 
 
 				 </div>
 			</div>
 
 			<div class="face back <%= 'card_' + f.id.to_s %>">
 				<div class="side-header">
-					<a data-confirm="Are you sure?" rel="nofollow" data-method="delete" href="<%= flashcard_path(f) %>" class='delete-link' data-toggle="tooltip" data-placement="bottom" title="Delete">
-						<span class="glyphicon glyphicon-remove-circle delete-link" aria-hidden="true">
-					</a>
+					<%= render partial: "flashcards/flashcard_header", locals: { fl: f }%> 
 				</div>
 				<div class="side-body">
 					<p class="translation"><%= f.translation %></p>
 				</div>
 
 				 <div class="side-footer">
-					<ul class="left">
-						<li class="<%= unless show_view_link then 'hide' else '' end %>"><%= link_to 'View', flashcard_path(f) %></li>
-						<li><%= link_to 'Edit', edit_flashcard_path(f) %></li>
-					</ul>
-
-					<ul class="right"> 
-						<li class='flip'>Click to flip</li>
-						<li><a href="" class="tag-link" data-card-id="<%= 'card_' + f.id.to_s %>">Toggle tags</a><span class="glyphicon glyphicon-tags" aria-hidden="true"></span></li>
-					</ul>
+				 	<%= render partial: "flashcards/flashcard_footer", locals: { fl: f, show_vl: show_view_link }%> 
 				 </div>
 
 			</div>

@@ -1,0 +1,9 @@
+<ul class="left">
+	<li class="<%= unless show_vl then 'hide' else '' end %>"><%= link_to 'View', flashcard_path(fl) %></li>
+	<li><%= link_to 'Edit', edit_flashcard_path(fl) %></li>
+</ul>
+
+<ul class="right"> 
+	<li class='flip'>Click to flip</li>
+	<li><a href="" class="tag-link" data-card-id="<%= 'card_' + fl.id.to_s %>">Toggle tags</a><span class="glyphicon glyphicon-tags" aria-hidden="true"></span></li>
+</ul>

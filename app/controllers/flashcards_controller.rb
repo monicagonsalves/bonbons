@@ -108,14 +108,37 @@ class FlashcardsController < ApplicationController
 				lp = LanguagePair.find(@flashcard.language_pair_id)
 				flash[:success] = "Successfully deleted flashcard that translates " + @flashcard.orig_word.downcase + " from " + lp.from_lang.capitalize + " to " + lp.to_lang.capitalize
 				@flashcard.destroy 
+
+				request_ref_info = Rails.application.routes.recognize_path(request.referrer)
+
+				unless request_ref_info[:controller] == 'flashcards' && request_ref_info[:action] == 'show'
+					c = request_ref_info[:controller]
+					a = request_ref_info[:action]
+
+					if c == 'stacks' && a == 'master'
+						@flashcards = Flashcards.all
+					end
+					
+					respond_to do |format|
+	      				format.html { redirect_to :back }
+	      				format.json { head :no_content }
+	      				format.js   { render :layout => false }
+
+	   				end
+	   			else
+	   				redirect_to flashcards_path
+   				end
 			else 
 				flash[:error] = "The flashcard you are trying to delete doesn't exist!"
+
+				redirect_to :back
 			end
 		else 
 			flash[:error] = "Oops! You cannot delete the selected flashcard."
+
+			redirect_to :back
 		end
 		
-		redirect_to :back
 	end 
 	###############################################################################
 	def new_batch
@@ -152,7 +175,7 @@ class FlashcardsController < ApplicationController
 						@errors << "Word fields cannot be empty."
 					else
 						flashcards_temp << {:flashcard => nil, :tag_names => ""}
-						flashcards_temp.last[:flashcard] = Flashcard.new({:language_pair_id => language_pair.id, :orig_word => word })
+						flashcards_temp.last[:flashcard] = Flashcard.new({:language_pair_id => language_pair.id, :orig_word => word, :user_id => current_user.id })
 
 						# Try looking up the word. Can we find a translation?
 						lookup_attempt = @@yandex.lookup(params[:from_lang], params[:to_lang], word)
@@ -202,7 +225,8 @@ class FlashcardsController < ApplicationController
 						if finished_filling_out_flashcard && flashcards_temp.last[:flashcard].invalid?
 							flashcards_temp.last[:flashcard].errors.messages.each do |key, msgs|
 								msgs.each do |msg|
-									@errors << msg
+									msg = msg + " that translates " + word + " from " + params[:from_lang].capitalize + " to " + params[:to_lang].capitalize
+									@errors << msg 
 								end
 							end
 						end
@@ -220,7 +244,6 @@ class FlashcardsController < ApplicationController
 			batch = Batch.create()
 			word_i = 0
 			flashcards_temp.each do |f|
-				f[:flashcard].user_id = current_user.id
 				f[:flashcard].batch_id = batch.id
 				f[:flashcard].save 
 
@@ -250,6 +273,7 @@ class FlashcardsController < ApplicationController
 
 			redirect_to stacks_by_batch_path(batch.id)
 		else
+			flash[:error] = @errors
 			render 'new_batch'
 		end
 		

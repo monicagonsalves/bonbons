@@ -8,7 +8,8 @@
  		<li><%= link_to 'View', stack[:link] %></li>
  		<li><%= link_to 'Delete', stack[:link],
             	  method: :delete,
-              	data: { confirm: 'Are you sure?' } %></li>
+              	data: { confirm: 'Are you sure?' },
+              	:remote => true %></li>
  	</ul>
  </div>
 </div>
