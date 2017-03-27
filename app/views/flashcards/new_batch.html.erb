@@ -1,43 +1,48 @@
 <h1>Generate New Batch of Flashcards</h1>
 
-<% if @errors.any? %>
-    <div id="error_explanation">
-      <h2>
-        <%= pluralize(@errors.count, "error") %> prohibited
-        this article from being saved:
-      </h2>
-      <ul>
-        <% @errors.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-      </ul>
-    </div>
-<% end %>
+<div class="generate-new-batch-form">
+  <% if @errors.any? %>
+      <div id="error_explanation">
+        <h2>
+          <%= pluralize(@errors.count, "error") %> prohibited
+          this article from being saved:
+        </h2>
+        <ul>
+          <% @errors.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+  <% end %>
 
 
-<%= form_tag("/flashcards/create_batch", method: "post") do %>
-  <p>
-  	<%= label_tag(:from_lang, "Original language:") %>
-  	<%= select_tag(:from_lang, options_for_select(@supported_langs)) %>
-  </p>
-  <p>
-   	<%= label_tag(:to_lang, "Translate to:") %>
-  	<%= select_tag(:to_lang, options_for_select(@supported_langs)) %>
-   </p>
-  <p>
-    <%= label_tag(:batch_tags, "Tags to apply to all cards in batch:") %>
-      <p class="instructions">To add tags, enter them as a comma seperated list in the textfield below. <p class="example"><h4>Example</h4> animal, noun</p></p>
-    <%= text_field_tag(:batch_tags, '') %>
-   </p>
-   <fieldset id="words">
-   	<legend>Words</legend>
-    <p>App will automatically determine article, do not include it. For example, instead of "le papillon", enter "papillon".</p>
-    <p id="add_words_button">
-      <%= label_tag(:num_words_to_add, "How many flashcards would you like to add to the stack? ") %>
-      <%= text_field_tag(:num_words_to_add) %>
-      <%= submit_tag("Make input fields!", :type =>  "button", :id => "add_word_fields", :name => 'add_word_fields') %> 
+  <%= form_tag("/flashcards/create_batch", method: "post") do %>
+    <p>
+    	<%= label_tag(:from_lang, "Original language:") %>
+    	<%= select_tag(:from_lang, options_for_select(@supported_langs)) %>
     </p>
+    <p>
+     	<%= label_tag(:to_lang, "Translate to:") %>
+    	<%= select_tag(:to_lang, options_for_select(@supported_langs)) %>
+     </p>
+    <p>
+      <%= label_tag(:batch_tags, "Tags to apply to all cards in batch:") %>
+        <p class="instructions">
+          <p> Add tags you want to apply to every card in the batch in the box below. Enter the tags as a comma separated list.</p>
+          <p class="example"><i>Example</i> animal, noun</p>
+        </p>
+      <%= text_field_tag(:batch_tags, '') %>
+     </p>
+     <fieldset id="words">
+     	<legend>Words</legend>
+      <p>App will automatically determine article, do not include it. For example, instead of "le papillon", enter "papillon".</p>
+      <p id="add_words_button">
+        <%= label_tag(:num_words_to_add, "How many flashcards would you like to add to the stack? ") %>
+        <%= text_field_tag(:num_words_to_add) %>
+        <%= submit_tag("Make input fields!", :type =>  "button", :id => "add_word_fields", :name => 'add_word_fields') %> 
+      </p>
 
-   </fieldset>
-  <%= submit_tag("Generate!") %>
-<% end %>
+     </fieldset>
+    <%= submit_tag("Generate!") %>
+  <% end %>
+</div>
