@@ -1,7 +1,5 @@
 $('.delete-link').bind('ajax:success', function() {
-   var card_id = $(this).attr('data-card-id')
-
-   console.log('<%= Rails.application.routes.recognize_path(request.referrer) %>');
+   var card_id = $(this).attr('data-card-id');
 
    $("#" + card_id + '_top').fadeOut(1000).detach();
 });

@@ -1,4 +1,6 @@
 class FlashcardsController < ApplicationController
+	include Stackable
+
 	before_action :authenticate_user!
 	
 	###############################################################################
@@ -112,12 +114,31 @@ class FlashcardsController < ApplicationController
 				request_ref_info = Rails.application.routes.recognize_path(request.referrer)
 
 				unless request_ref_info[:controller] == 'flashcards' && request_ref_info[:action] == 'show'
-					c = request_ref_info[:controller]
 					a = request_ref_info[:action]
 
-					if c == 'stacks' && a == 'master'
-						@flashcards = Flashcards.all
+					# We need to reload all of the flashcards...
+					if a == 'master'
+						@flashcards = get_master
+					else 
+						id = request_ref_info[:id]
+							
+						if a == 'by_user_defined_tag'
+							result = get_by_user_defined_tag(id)
+						elsif a == 'by_batch'
+							result = get_by_batch(id)
+						elsif a == 'by_langs'
+							result = get_by_langs(id)
+						end
+
+						@flashcards = nil
+
+						if result[:success]
+							@flashcards = result[:flashcards]
+						end
+
 					end
+					
+
 					
 					respond_to do |format|
 	      				format.html { redirect_to :back }

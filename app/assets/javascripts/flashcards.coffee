@@ -37,4 +37,8 @@ ready = ->
     
     event.preventDefault()
 
+  $('.toggle-all-tags').on "change", (event) ->
+    $(".tag-list").slideToggle("slow");
+    event.preventDefault()
+
 $(document).on('turbolinks:load', ready) 

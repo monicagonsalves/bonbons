@@ -1,10 +1,12 @@
 class StacksController < ApplicationController
+	include Stackable
+
 	before_action :authenticate_user!
 	
 	def index 
 		@stacks = {}
 		
-		get_master
+		@flashcards = get_master
 		@stacks["master"] = {}
 		@stacks["master"][:size] = @flashcards.count
 		@stacks["master"][:title] = "Master Stack (all flashcards)"
@@ -15,7 +17,8 @@ class StacksController < ApplicationController
 
 		@stacks["lang_pair"] = {}
 		language_pairs.each do |lp|
-			get_by_langs(lp.code)
+			result = get_by_langs(lp.code)
+			@flashcards = result[:flashcards]
 
 			if @flashcards.count > 0 
 				@stacks["lang_pair"][lp.id] = {}
@@ -30,7 +33,10 @@ class StacksController < ApplicationController
 		@stacks["batch"] = {}
 
 		batches.each do |i| 
-			get_by_batch(i)
+
+			result = get_by_batch(i)
+			@flashcards = result[:flashcards]
+			
 			if @flashcards.count > 0 
 				@stacks["batch"][i] = {}
 				@stacks["batch"][i][:size] = @flashcards.count
@@ -42,15 +48,16 @@ class StacksController < ApplicationController
 	end
 	#----------------------------------------------------------------- Generators
 	def master
-		get_master
+		@flashcards = get_master
 		@delete_path = stacks_master_path
 		generate_stack('All flashcards')
 	end
 
 	def by_batch 
-		successfully_got_flashcards = get_by_batch(params[:id])
+		result = get_by_batch(params[:id])
 
-		if successfully_got_flashcards
+		if result[:success]
+			@flashcards = result[:flashcards]
 			@delete_path = stacks_by_batch_path(params[:id])
 			stack_title = 'All flashcards from batch ' + params[:id]
 			generate_stack(stack_title)
@@ -61,11 +68,15 @@ class StacksController < ApplicationController
 	end 
 
 	def by_langs
-		successfully_got_flashcards = get_by_langs(params[:id])
+		result = get_by_langs(params[:id])
 
-		if successfully_got_flashcards 
+		if result[:success] 
+			@flashcards = result[:flashcards]
+			@language_pair = result[:language_pair]
+
 			@delete_path = stacks_by_langs_path(@language_pair.code.sub('-','_'))
 			stack_title = 'All flashcards from ' + @language_pair.from_lang.capitalize + " to " + @language_pair.to_lang.capitalize
+			
 			generate_stack(stack_title)
 		else 
 			flash[:error] = "Cannot retrieve stack by language pair given."
@@ -75,9 +86,12 @@ class StacksController < ApplicationController
 	end 
 
 	def by_user_defined_tag
-		successfully_got_flashcards = get_by_user_defined_tag(params[:id])
+		result = get_by_user_defined_tag(params[:id])
 
-		if successfully_got_flashcards 
+		if result[:success] 
+			@flashcards = result[:flashcards]
+			@tag = result[:tag]
+
 			@delete_path = stacks_by_user_defined_tag_path(params[:id])
 			stack_title = "All flashcards with tag " + @tag.name
 			generate_stack(stack_title)
@@ -89,16 +103,19 @@ class StacksController < ApplicationController
 
 	#---------------------------------------------------------------- Destructors	
 	def destroy_master
-		get_master
+		@flashcards = get_master
 		@count = @flashcards.count 
 		@stack_title = "the master (all flashcards) " 
 		destroy_stack
 	end 
 
 	def destroy_by_langs
-		successfully_got_flashcards = get_by_langs(params[:id])
+		result = get_by_langs(params[:id])
 
-		if successfully_got_flashcards 
+		if result[:success] 
+			@flashcards = result[:flashcards]
+			@language_pair = result[:language_pair]
+
 			@count = @flashcards.count 
 			@stack_title =  @language_pair.from_lang.capitalize + " to " + @language_pair.to_lang.capitalize
 			destroy_stack
@@ -109,9 +126,11 @@ class StacksController < ApplicationController
 	end
 
 	def destroy_by_batch
-		successfully_got_flashcards = get_by_batch(params[:id])
+		result = get_by_batch(params[:id])
 
-		if successfully_got_flashcards
+		if result[:success]
+			@flashcards = result[:flashcards]
+
 			@count = @flashcards.count 
 			@stack_title = "batch " + params[:id]
 			destroy_stack
@@ -123,9 +142,12 @@ class StacksController < ApplicationController
 	end
 
 	def destroy_by_user_defined_tag 
-		successfully_got_flashcards = get_by_user_defined_tag(params[:id])
+		result = get_by_user_defined_tag(params[:id])
 
-		if successfully_got_flashcards 
+		if result[:success] 
+			@flashcards = result[:flashcards]
+			@tag = result[:tag]
+
 			@count = @flashcards.count 
 			@stack_title = " tag " + @tag.name 
 			destroy_stack
@@ -136,44 +158,6 @@ class StacksController < ApplicationController
 	end
 
 	#-----------------------------------------------------------------Helpers
-	def get_by_langs(id)
-		lang_code = id.sub('_', '-')
-		@language_pair = LanguagePair.find_by(code: lang_code)
-
-		unless @language_pair.nil?
-			@flashcards = Flashcard.where(language_pair_id: @language_pair.id, user_id: current_user.id)
-			return true 	
-		end
-
-		return false 
-	end
-
-	def get_by_batch(id)
-		temp = Flashcard.where(batch_id: id, user_id: current_user.id)
-
-		unless temp.empty?
-			@flashcards = temp 
-			return true
-		end
-
-		return false 
-	end
-
-	def get_master
-		@flashcards = Flashcard.where(user_id: current_user.id)
-	end
-
-	def get_by_user_defined_tag(id)
-		@tag = UserDefinedTag.find_by(id: id, user_id: current_user.id)
-
-		unless @tag.nil?
-			@flashcards = @tag.flashcards
-			return true
-		end
-
-		return false 
-	end
-
 	def destroy_stack
 		@flashcards.each do |flashcard|
 			flashcard.destroy

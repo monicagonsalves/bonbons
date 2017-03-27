@@ -1,0 +1,26 @@
+	<div class="flashcards-list">
+	   <% size =  flashcards.count %>
+	   <% num_per_row = 3 %> 
+	   <% num_rows = (size/num_per_row.to_f).ceil%>
+	   <ul class="stack-info">
+	        <li> <b><%= size %></b> flashcard(s) </li>
+	   		<li> <b><%= num_rows %></b> row(s)</li>
+	   </ul>
+
+	   <div class="container">
+	   		<% current_row = 0 %> 
+	   		<% flashcards.each do |fl| %> 
+	   	    	<% if current_row % num_per_row == 0 then %> 
+	   	    		<div class="row"> <!-- START STACK ROW --> 
+	   	    	<% end %>
+	   	    
+	   	    	<%= render partial: "flashcards/single_flashcard", locals: { f: fl, l: @langs[fl.id], show_view_link: true, col_class: "col-xs-4" }%> 
+
+	   	    	<% if (current_row % num_per_row == (num_per_row - 1)) || fl.id == flashcards.last.id then %> 
+	   	    		</div> <!-- END STACK ROW -->
+	   	    	<% end %>
+	   	    	<% current_row += 1 %> 
+	   		<% end %>
+	   	</div>
+
+	</div>
