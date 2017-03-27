@@ -22,16 +22,19 @@ ready = ->
   # But, I'm guessing the reason you have to toggle the class on the object with the 
   # flashcard class and not the object with the front class is because the animation
   # is associated with the flashcard class. 
-  $('.flashcard-container .flashcard').click -> 
-    $(this).toggleClass('front-flip')
+  $('.flashcard-container .flashcard').on 'click', (event) ->
+    # Do not want to flip the card when the user clicks a link!
+    unless $(event.target).is('a')
+      $(this).toggleClass('front-flip')
 
-  $('.tag-link').on "click", (event) -> 
+  $('.tag-link').on 'click', (event) -> 
     event.stopPropagation()
+
+    # Do not want to slide out all tag lists, just the one associated with this 
+    # particular card!
     card_id = $(this).attr('data-card-id')
     $(".tag-list.#{card_id}").slideToggle( "slow");
+    
     event.preventDefault()
-
-  $('.flashcard-container .flashcard a').on "click", (event) -> 
-    event.stopPropagation()
 
 $(document).on('turbolinks:load', ready) 

@@ -51,3 +51,24 @@ $single_stack_width: 30%;
 .selected{
 	background-color: pink;
 }
+
+.stack-info{
+	margin-left: -42px; 
+	margin-bottom: 20px !important; 
+
+	li{
+		display: inline-block; 
+		&:not(:last-of-type){
+			border-right: 1px solid #a0a0a0; 
+			padding-right: 10px; 
+		}
+
+		&:not(:first-of-type){
+			padding-left: 10px; 
+		}
+
+		b{
+			color: #00aaa8 !important; 
+		}
+	}
+}

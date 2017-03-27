@@ -17,11 +17,11 @@
 				 <div class="side-footer">
 
 						<ul class="left">
-							<li class="<%= unless show_view_link then 'hide' else '' end %>"><%= link_to 'View', flashcard_path(f)%></li>
+							<li class="<%= unless show_view_link then 'hide' else '' end %>"><%= link_to 'View', flashcard_path(f) %></li>
 							<li><%= link_to 'Edit', edit_flashcard_path(f) %></li>
 							<li><%= link_to 'Delete', flashcard_path(f),
 			            			method: :delete,
-			              			data: { confirm: 'Are you sure?' } %></li>
+			              			data: { confirm: 'Are you sure?' }  %></li>
 						</ul>
 
 					<ul class="right"> 
@@ -39,7 +39,7 @@
 
 				 <div class="side-footer">
 					<ul class="left">
-						<li class="<%= unless show_view_link then 'hide' else '' end %>"><%= link_to 'View', flashcard_path(f)%></li>
+						<li class="<%= unless show_view_link then 'hide' else '' end %>"><%= link_to 'View', flashcard_path(f) %></li>
 						<li><%= link_to 'Edit', edit_flashcard_path(f) %></li>
 						<li><%= link_to 'Delete', flashcard_path(f),
 			            	method: :delete,

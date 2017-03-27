@@ -4,10 +4,9 @@
 	   <% size =  @flashcards.count %>
 	   <% num_per_row = 3 %> 
 	   <% num_rows = (size/num_per_row.to_f).ceil%>
-	   <ul>
-	        <li> Found <b><%= size %></b> flashcards </li>
-	   		<li> Displaying <b><%= num_per_row %></b> per row</li>
-	   		<li> Displaying <b><%= num_rows %></b> rows</li>
+	   <ul class="stack-info">
+	        <li> <b><%= size %></b> flashcard(s) </li>
+	   		<li> <b><%= num_rows %></b> row(s)</li>
 	   </ul>
 
 	   <div class="container">
