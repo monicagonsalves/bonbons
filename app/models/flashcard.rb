@@ -40,7 +40,7 @@ def image_remote_url=(url_value)
 
   def add_data_from_apis(query_results, yandex, from_lang)
   	data = query_results[:response_data]["def"][0]
-  	self.gender = if data["tr"][0]["gen"].nil? then "n" else data["tr"][0]["gen"] end
+  	self.gender = "n"
   	self.translation = data["tr"][0]["text"].downcase
 
   	pixabay = PixabayClient.new

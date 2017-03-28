@@ -29,7 +29,7 @@ class PixabayClient
 			return {:has_error => true, :error_msg => "Sorry, we could not find any images matching your query."}
 		end
 
-		num_to_select_from = if total_hits < 10 then total_hits else 10 end
+		num_to_select_from = if total_hits < 5 then total_hits else 5 end
 
 		which_image = if get_random then rand(num_to_select_from) else 0 end
 

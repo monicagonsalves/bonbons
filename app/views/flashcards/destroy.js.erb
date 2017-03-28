@@ -1,5 +1,72 @@
-$('.delete-link').bind('ajax:success', function() {
-   var card_id = $(this).attr('data-card-id');
+var unwrapColumns = function(current){
+	while(true)
+	{
+		var next_temp = current.next();
 
-   $("#" + card_id + '_top').fadeOut(1000).detach();
+		current.children().first().unwrap();
+
+		if(!next_temp.length)
+			break; 
+
+		current = next_temp; 
+	}
+}
+
+var rewrapColumns = function(container){
+
+    var children = container.children();
+    var i = 0; 
+    
+    while(i < children.length)
+    {
+        var num_left = children.length - i; 
+
+        var subset; 
+        if(num_left >= 3)
+        	j = i + 3; 
+        else
+        	j = i + num_left; 
+
+        subset = children.slice(i,j);
+
+        $(subset).wrapAll("<div class='row'></div>");
+
+        i = j; 
+    }
+
+}
+
+$('.delete-link').bind('ajax:success', function() {
+    var card_id = $(this).attr('data-card-id');
+    var card_id_str = "#" + card_id + "_top";
+    var selected = $(card_id_str);
+
+
+    var selected = $(card_id_str);
+    var container = selected.parents()
+                            .filter('.row')
+                            .parent();
+
+
+    var current = container.children().first();
+
+   	selected.fadeOut(800, function(){
+
+   		unwrapColumns(current);
+      
+        $(card_id_str).remove();
+
+        rewrapColumns(container);
+
+        // update the numbers
+        num_rows = container.children().length; 
+        num_flashcards = 3*(parseInt(num_rows) - 1) + container.children()
+                                                               .last()
+                                                               .children()
+                                                               .length; 
+
+        $('.num_flashcards_in_stack').html(num_flashcards.toString());
+        $('.num_rows_in_stack').html(num_rows.toString());
+   	});
+
 });

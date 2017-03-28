@@ -1,33 +1,32 @@
-<h1>All Stacks</h1>
+<h1>Find and Generate Stacks</h1>
 <!-- TODO: Instead of tab-like interface, start off by listing all the stacks ordered 
 alpahbetially by name and give the user the option of filtering stacks by type or name. -->
-<div id="auto-generated-stacks">
-	<h2>Automatically Generated Stacks</h2>
-	<ul class="clearer">
-		<li data-div-id="master-stack-list">Master Stack (all flashcards)</li>
-		<li data-div-id="creation-batch-stacks-list">Stacks by Creation Batch</li>
-		<li data-div-id="language-pair-stacks-list">Stacks by Language Pairs</li>
-	</ul>
-  
-	<div id="master-stack-list" class="hide">
-<%= render partial: "single_stack", locals: { stack: @stacks["master"]}%> 
+<div>
+	<div class="container">
+	<form class="filter-and-generate-stacks" role="search">
+		<div class="row">
+			<div class="col-xs-6">
+			</div>
+			<div class="col-xs-2">
+				<p><input type="checkbox" name="by_tags" />Tags</p>
+			</div>
+			<div class='col-xs-2'>
+				<p><input type="checkbox" name="by_langs" />Language Pair</p>
+			</div>
+			<div class="col-xs-2">
+				<p><input type="checkbox" name="by_tags" />Creation Batch</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+		    	<div class="input-group">
+					<input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term">
+					<div class="input-group-btn">
+						<button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+					</div>
+				</div>
+				</form>
+			</div>
+		</div>
 	</div>
-	<div id="creation-batch-stacks-list" class="hide">
-		<% @stacks["batch"].each do |b_id, b| %>
-		   <% if b[:size] > 0 then %> 
-		   	<%= render partial: "single_stack", locals: { stack: b} %>
-		   <% end %>
-		<% end %>
-	</div>
-	<div id="language-pair-stacks-list" class="hide">
-		<% @stacks["lang_pair"].each do |lp_id, lp| %>
-		   <% if lp[:size] > 0 then %> 
-		   	  <%= render partial: "single_stack", locals: { stack: lp} %>
-		   <% end %>
-		<% end %>
-	</div>
-</div>
-<div class="clearer"></div>
-<div id="user-generated-stacks">
-	<h2>User Generated Stacks</h2>
 </div>

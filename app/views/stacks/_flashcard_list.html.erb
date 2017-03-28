@@ -3,8 +3,8 @@
 	   <% num_per_row = 3 %> 
 	   <% num_rows = (size/num_per_row.to_f).ceil%>
 	   <ul class="stack-info">
-	        <li> <b><%= size %></b> flashcard(s) </li>
-	   		<li> <b><%= num_rows %></b> row(s)</li>
+	        <li> <b class="num_flashcards_in_stack"><%= size %></b> flashcard(s) </li>
+	   		<li> <b class="num_rows_in_stack"><%= num_rows %></b> row(s)</li>
 	   </ul>
 
 	   <div class="container">
@@ -13,10 +13,12 @@
 	   	    	<% if current_row % num_per_row == 0 then %> 
 	   	    		<div class="row"> <!-- START STACK ROW --> 
 	   	    	<% end %>
-	   	    
-	   	    	<%= render partial: "flashcards/single_flashcard", locals: { f: fl, l: @langs[fl.id], show_view_link: true, col_class: "col-xs-4" }%> 
 
-	   	    	<% if (current_row % num_per_row == (num_per_row - 1)) || fl.id == flashcards.last.id then %> 
+	   	    	<% last_in_row = (current_row % num_per_row == (num_per_row - 1)) || fl.id == flashcards.last.id %>
+
+	   	    	<%= render partial: "flashcards/single_flashcard", locals: { f: fl, l: langs[fl.id], show_view_link: true, col_class: "col-xs-4" }%> 
+
+	   	    	<% if last_in_row then %> 
 	   	    		</div> <!-- END STACK ROW -->
 	   	    	<% end %>
 	   	    	<% current_row += 1 %> 

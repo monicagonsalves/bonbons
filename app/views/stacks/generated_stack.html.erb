@@ -1,4 +1,4 @@
 <h1><%= @stack_title %></h1>
 <%= render partial: 'home/flash' %> 
 <p><input type="checkbox" class="toggle-all-tags"/>Toggle all tags?</p>
-<%= render partial: "flashcard_list", locals: { flashcards: @flashcards }%> 
+<%= render partial: "flashcard_list", locals: { flashcards: @flashcards, langs: @langs }%> 

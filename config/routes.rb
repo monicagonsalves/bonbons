@@ -13,7 +13,6 @@ Rails.application.routes.draw do
     collection do 
        get  'new_batch'
        post 'create_batch'
-       get  'search' 
     end 
  end 
  
@@ -22,6 +21,8 @@ Rails.application.routes.draw do
  get    '/stacks/by_tag/:id' ,to: 'stacks#by_user_defined_tag', as: :stacks_by_user_defined_tag
 
  get    '/stacks',             to: 'stacks#index', as: :stacks_index
+ post   '/stacks/find',        to: 'stacks#find', as: :stacks_find
+
  get    'stacks/by_batch/:id', to: 'stacks#by_batch', constraints: {id: /[0-9]+/}, as: :stacks_by_batch
  get    'stacks/by_langs/:id', to: 'stacks#by_langs', constraints: {id: /[a-z]{2,3}_[a-z]{2,3}/ }, as: :stacks_by_langs
  
