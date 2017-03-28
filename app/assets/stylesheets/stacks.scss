@@ -51,9 +51,28 @@ label:not(.filter-label){
 
 table{
 
+	width: 100%;
+	border: 1px solid #cecece;
+	border-radius: 20px !important; 
+
 	th, td{
 		padding-top: 10px !important;
-		padding-right: 15px !important;
+		padding-right: 25px !important;
+		padding-left: 10px !important; 
+		padding-bottom: 10px !important; 
+	}
+
+	th{
+		background-color: #dbdbdb;	
+	}
+
+	tr{
+		&:nth-of-type(even){
+			background-color: #ECECEC; 
+	    }
+	    &:nth-of-type(odd){
+	    	background-color: #f4f4f4;
+	    }
 	}
 
 	margin-top: 15px !important; 

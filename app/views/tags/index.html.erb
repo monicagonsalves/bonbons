@@ -16,8 +16,8 @@
 		<tr>	
 			<td><%= tag.name %></td>
 			<td><%= tag.flashcards.size %></td>
-			<td><%= if tag.type == 1 then "Yes" else "No" end %></td>
-			<td><%= if tag.type == 1 then "Yes" else "No" end %></td>
+			<td><%= if tag.category == 1 then "Yes" else "No" end %></td>
+			<td><%= if tag.category == 1 then "Yes" else "No" end %></td>
 			<td><%= link_to 'Flashcards (stack)', tag.stack_path %></td>
 		</tr>
 	<% end %>
