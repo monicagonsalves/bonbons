@@ -21,6 +21,8 @@ Rails.application.routes.draw do
  get    '/stacks/by_tag/:id' ,to: 'stacks#by_user_defined_tag', as: :stacks_by_user_defined_tag
 
  get    '/stacks',             to: 'stacks#index', as: :stacks_index
+ get    '/stacks/order',       to: 'stacks#order', as: :stacks_order
+
  post   '/stacks/find',        to: 'stacks#find', as: :stacks_find
 
  get    'stacks/by_batch/:id', to: 'stacks#by_batch', constraints: {id: /[0-9]+/}, as: :stacks_by_batch

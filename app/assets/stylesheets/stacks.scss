@@ -79,12 +79,17 @@ table{
 }
 
 .stacks-list{
-	.delete-link{
+	.delete-link, .glyphicon{
+		color: #777777 !important; 
 		&:link, &:visited{
 			color: #777777 !important; 
 		}
 		&:hover{
 			color: #FF10CF !important; 
 		}
+	}
+
+	.glyphicon-chevron-down{
+		margin-left: 5px; 
 	}
 }

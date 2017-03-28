@@ -6,7 +6,7 @@ alpahbetially by name and give the user the option of filtering stacks by type o
 		<form class="filter-and-generate-stacks" role="search">
 		<%= form_tag("/stacks/find", method: "post") do %>
 		<div class="row">
-			<div class="col-xs-4">
+			<div class="col-xs-2">
 			</div>
 			<div class="col-xs-2">
 				<label class="filter-label">Filter: </label>
@@ -19,6 +19,9 @@ alpahbetially by name and give the user the option of filtering stacks by type o
 			</div>
 			<div class="col-xs-2">
 				<label><input type="checkbox" name="by_tags" />Creation Batch</label>
+			</div>
+			<div class="col-xs-2">
+				<label><input type="checkbox" name="by_tags" /> Allow empty?</label>
 			</div>
 		</div>
 		<div class="row">
@@ -36,11 +39,12 @@ alpahbetially by name and give the user the option of filtering stacks by type o
 
 		<table>
 			<tr>
-				<th>Name</th>
-				<th>Number of Flashcards</th>
+				<th>Name <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span><span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span></th>
+				<th>Number of Flashcards<span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span><span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span></th>
 				<th>View</th>
 				<th>Study</th>
 				<th>Print</th>
+				<th>Public?</th>
 				<th>Delete</th>
 			</tr>
 

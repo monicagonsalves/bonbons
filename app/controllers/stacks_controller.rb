@@ -12,34 +12,7 @@ class StacksController < ApplicationController
 		#    2 => Batch
 		#    1 => User Defined Tags
 		#---------------------------------------------------------------#
-		@stacks = []
-		
-		master_stack = Stack.new(name: "Master (all flashcards)", category: 4)
-		master_stack.flashcards << get_master 
-
-		@stacks << master_stack 
-
-		tags = Tag.all(current_user)
-
-		@stacks = @stacks + Tag.tags_to_stacks(tags)
-
-		@paths = []
-
-		@stacks.each do |stack|
-			if stack.category == 1
-				tag = UserDefinedTag.find_by(user_id: current_user.id, name: stack.name.downcase)
-				@paths << stacks_by_user_defined_tag_path(tag.id)
-			elsif stack.category == 2 
-				@paths << stacks_by_batch_path(stack.flashcards.first.batch_id)
-			elsif stack.category == 3 
-				langs = stack.name.sub(' to ', ',').split(',').map(&:strip).map(&:downcase)
-				lp = LanguagePair.find_by(from_lang: langs[0], to_lang: langs[1])
-
-				@paths << stacks_by_langs_path(lp.code.sub('-','_'))
-			elsif stack.category == 4
-				@paths << flashcards_path 
-			end 
-		end
+		auto_generated_stacks
 	end
 
 
@@ -173,4 +146,35 @@ class StacksController < ApplicationController
 		@stack_title = stack_title 
 		render 'generated_stack'
 	end 
+
+	def auto_generated_stacks
+		@stacks = []
+		
+		master_stack = Stack.new(name: "Master (all flashcards)", category: 4)
+		master_stack.flashcards << get_master 
+
+		@stacks << master_stack 
+
+		tags = Tag.all(current_user)
+
+		@stacks = @stacks + Tag.tags_to_stacks(tags)
+
+		@paths = []
+
+		@stacks.each do |stack|
+			if stack.category == 1
+				tag = UserDefinedTag.find_by(user_id: current_user.id, name: stack.name.downcase)
+				@paths << stacks_by_user_defined_tag_path(tag.id)
+			elsif stack.category == 2 
+				@paths << stacks_by_batch_path(stack.flashcards.first.batch_id)
+			elsif stack.category == 3 
+				langs = stack.name.sub(' to ', ',').split(',').map(&:strip).map(&:downcase)
+				lp = LanguagePair.find_by(from_lang: langs[0], to_lang: langs[1])
+
+				@paths << stacks_by_langs_path(lp.code.sub('-','_'))
+			elsif stack.category == 4
+				@paths << flashcards_path 
+			end 
+		end
+	end
 end
