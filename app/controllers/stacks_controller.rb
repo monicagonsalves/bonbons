@@ -4,48 +4,46 @@ class StacksController < ApplicationController
 	before_action :authenticate_user!
 	
 	def index 
-		@stacks = {}
+		#---------------------------------------------------------------#
+		# Categories: 
+		#    5 => Custom
+		#    4 => Master
+		#    3 => Language Pair
+		#    2 => Batch
+		#    1 => User Defined Tags
+		#---------------------------------------------------------------#
+		@stacks = []
 		
-		@flashcards = get_master
-		@stacks["master"] = {}
-		@stacks["master"][:size] = @flashcards.count
-		@stacks["master"][:title] = "Master Stack (all flashcards)"
-		@stacks["master"][:link] = stacks_master_path
+		master_stack = Stack.new(name: "Master (all flashcards)", category: 4)
+		master_stack.flashcards << get_master 
 
-		# Find all language pair stacks
-		language_pairs = LanguagePair.all
+		@stacks << master_stack 
 
-		@stacks["lang_pair"] = {}
-		language_pairs.each do |lp|
-			result = get_by_langs(lp.code)
-			@flashcards = result[:flashcards]
+		tags = Tag.all(current_user)
 
-			if @flashcards.count > 0 
-				@stacks["lang_pair"][lp.id] = {}
-				@stacks["lang_pair"][lp.id][:size] = @flashcards.count 
-				@stacks["lang_pair"][lp.id][:title] = "All flashcards from " + lp.from_lang.capitalize + " to " + lp.to_lang.capitalize
-				@stacks["lang_pair"][lp.id][:link] = stacks_by_langs_path(lp.code.sub('-','_'))
-			end
-		end
+		@stacks = @stacks + Tag.tags_to_stacks(tags)
 
-		batches = Flashcard.joins(:batch).where(user_id: current_user.id).uniq.pluck(:batch_id)
+		@paths = []
 
-		@stacks["batch"] = {}
+		@stacks.each do |stack|
+			if stack.category == 1
+				tag = UserDefinedTag.find_by(user_id: current_user.id, name: stack.name.downcase)
+				@paths << stacks_by_user_defined_tag_path(tag.id)
+			elsif stack.category == 2 
+				@paths << stacks_by_batch_path(stack.flashcards.first.batch_id)
+			elsif stack.category == 3 
+				langs = stack.name.sub(' to ', ',').split(',').map(&:strip).map(&:downcase)
+				lp = LanguagePair.find_by(from_lang: langs[0], to_lang: langs[1])
 
-		batches.each do |i| 
-
-			result = get_by_batch(i)
-			@flashcards = result[:flashcards]
-			
-			if @flashcards.count > 0 
-				@stacks["batch"][i] = {}
-				@stacks["batch"][i][:size] = @flashcards.count
-				@stacks["batch"][i][:title] = "All flashcards from batch " + i.to_s
-				@stacks["batch"][i][:link] = stacks_by_batch_path(i)
+				@paths << stacks_by_langs_path(lp.code.sub('-','_'))
+			elsif stack.category == 4
+				@paths << flashcards_path 
 			end 
 		end
-
 	end
+
+
+
 	#----------------------------------------------------------------- Generators
 	def master
 		@flashcards = get_master

@@ -1,7 +1,7 @@
 class Tag
   include ActiveModel::Model
 
-  attr_accessor :name, :flashcards, :stack_path, :type
+  attr_accessor :name, :flashcards, :stack_path, :category
   validates_presence_of :name
   validates_presence_of :flashcards
 
@@ -12,13 +12,13 @@ class Tag
   	user_defined_tags.each do |udt| 
   		sp = "/stacks/by_tag/" + udt.id.to_s
 
-  		tags << Tag.new(name: udt.name.capitalize, flashcards: udt.flashcards, stack_path: sp, type: 1)
+  		tags << Tag.new(name: udt.name.capitalize, flashcards: udt.flashcards, stack_path: sp, category: 1)
   	end
 
   	return tags 
   end
   ############################################################################
-  def self.batchs_to_tags(current_user)
+  def self.batches_to_tags(current_user)
   	tags = []
 
     batches = Flashcard.joins(:batch).where(user_id: current_user.id).uniq.pluck(:batch_id)
@@ -28,7 +28,7 @@ class Tag
       f = Flashcard.where(batch_id: i, user_id: current_user.id)
       sp = "stacks/by_batch/" + i.to_s 
 
-      tags << Tag.new(name: n.capitalize, flashcards: f, stack_path: sp, type: 2)
+      tags << Tag.new(name: n.capitalize, flashcards: f, stack_path: sp, category: 2)
     end
 
   	return tags
@@ -42,14 +42,14 @@ class Tag
   		f = Flashcard.where(language_pair_id: lp.id, user_id: current_user.id)
   		sp = "stacks/by_langs/" + lp.code.sub('-','_')
 
-  		tags << Tag.new(name: n, flashcards: f, stack_path: sp, type: 3)
+  		tags << Tag.new(name: n, flashcards: f, stack_path: sp, category: 3)
   	end 
 
   	return tags 
   end
   ############################################################################
   def self.all(current_user) 
-  	return (user_defined_tags_to_tags(current_user) + batchs_to_tags(current_user) + lang_pairs_to_tags(current_user)).sort_by(&:name)
+  	return (user_defined_tags_to_tags(current_user) + batches_to_tags(current_user) + lang_pairs_to_tags(current_user)).sort_by(&:name)
   end
   ############################################################################
   def self.get_tag_type(t) 
@@ -64,5 +64,18 @@ class Tag
   		return "invalid"
   	end
 
+  end
+
+  def self.tags_to_stacks(tags)
+    stacks = []
+    tags.each do |tag|
+      s =  Stack.new(name: tag.name, category: tag.category)
+      s.flashcards << tag.flashcards
+
+      stacks << s 
+
+    end 
+
+    return stacks
   end
 end

@@ -62,7 +62,7 @@
           </ul>
           <ul class="nav navbar-nav navbar-right">
           	<% unless user_signed_in? %>
-              <%= link_to 'login', new_user_session_path %></li>
+              <li><%= link_to 'login', new_user_session_path %></li>
 	            <li><%= link_to 'sign up', new_user_registration_path %></li>
 	        <% else %>
 				      <li><%= link_to current_user.email, 'user_profile' %></li>

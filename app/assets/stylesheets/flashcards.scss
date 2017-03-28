@@ -144,11 +144,18 @@
 	padding: 1em; 
 	display: none; 
 	list-style: none; 
+	border-radius: 10px;
 
 	li {
-		display: inline; 
-		&:not(:last-of-type):after {
-			content: ', '
+		display: inline-block;
+		border-radius: 5px; 
+		border: 1px solid #bcbcbc;
+		padding: 5px; 
+		background-color: #f9f9f9;  
+		margin-bottom: 10px;
+
+		&:after{
+			content: '' !important;
 		}
 	}
 }

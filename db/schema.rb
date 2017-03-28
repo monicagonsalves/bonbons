@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170324054320) do
+ActiveRecord::Schema.define(version: 20170328104208) do
 
   create_table "batches", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -72,8 +72,10 @@ ActiveRecord::Schema.define(version: 20170324054320) do
   add_index "language_pairs", ["code"], name: "index_language_pairs_on_code", using: :btree
 
   create_table "stacks", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.integer  "category",   limit: 4,   null: false
+    t.string   "name",       limit: 255
   end
 
   create_table "user_defined_tags", force: :cascade do |t|

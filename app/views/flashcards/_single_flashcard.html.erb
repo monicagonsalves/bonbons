@@ -44,7 +44,7 @@
 		<div class="clearer"></div>
 		<ul class="tag-list <%= 'card_' + f.id.to_s %>">
 			<% f.user_defined_tags.order(:name).each do |t| %>
-				<li><%= link_to t.name, stacks_by_user_defined_tag_path(t)%></li>
+				<li><%= link_to t.name, stacks_by_user_defined_tag_path(t) %></li>
 			<% end %>
 
 			<li><a href="<%= stacks_by_langs_path(l.code.sub('-','_')) %>"><%= (l.from_lang + " to " + l.to_lang).strip %></a></li>
