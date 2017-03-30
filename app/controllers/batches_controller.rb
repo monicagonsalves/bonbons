@@ -22,7 +22,7 @@ class BatchesController < ApplicationController
 
 	def study_stack
 		@flashcards = Flashcard.where(batch_id: params[:id], user_id: current_user.id)
-		@stack_title = "Study all flashcards from batch " + params[:id]
-		study()
+		stack_title = "Study all flashcards from batch " + params[:id]
+		study(stack_title)
 	end
 end

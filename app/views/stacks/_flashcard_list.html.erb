@@ -5,7 +5,10 @@
 	   <ul class="stack-info">
 	        <li> <b class="num_flashcards_in_stack"><%= size %></b> flashcard(s) </li>
 	   		<li> <b class="num_rows_in_stack"><%= num_rows %></b> row(s)</li>
-	   		<li><span class="glyphicon glyphicon-education" aria-hidden="true"></span> Study</li>
+
+	   		<% unless action_name == 'study_stack' then %>
+	   			<li><span class="glyphicon glyphicon-education" aria-hidden="true"></span> Study</li>
+	   		<% end %>
 	   </ul>
 
 	   <div class="container">
@@ -15,9 +18,11 @@
 	   	    		<div class="row"> <!-- START STACK ROW --> 
 	   	    	<% end %>
 
+	   	    	<%  ss = if action_name == 'study_stack' && current_row > 0 then 'hide' else '' end %>
+
 	   	    	<% last_in_row = (current_row % num_per_row == (num_per_row - 1)) || fl.id == flashcards.last.id %>
 
-	   	    	<%= render partial: "flashcards/single_flashcard", locals: { f: fl, l: langs[fl.id], show_view_link: true, col_class: cc }%> 
+	   	    	<%= render partial: "flashcards/single_flashcard", locals: { f: fl, l: langs[fl.id], show_view_link: true, col_class: cc, should_show: ss }%> 
 
 	   	    	<% if last_in_row then %> 
 	   	    		</div> <!-- END STACK ROW -->

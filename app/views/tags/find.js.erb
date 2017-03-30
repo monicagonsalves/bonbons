@@ -1,5 +1,3 @@
-console.log("Does this render though?");
-
 $('.tag-list-row').remove();
 
 $("table").append("<%= escape_javascript(render partial: 'tags_list', locals: { tags: @tags } ) %>"); 

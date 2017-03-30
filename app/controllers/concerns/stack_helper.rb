@@ -1,13 +1,14 @@
 module StackHelper
 	extend ActiveSupport::Concern
 
-	def generate_stack_helper(stack_title)
+	def generate_stack_helper(stack_title, col_class = "col-xs-4")
 		@langs = {}
 		@flashcards.each do |f| 
 			@langs[f.id] = LanguagePair.find(f.language_pair_id)
 		end 
 
 		@stack_title = stack_title 
+		@col_class = col_class
 		render 'stacks/generated_stack'
 	end
 
@@ -29,7 +30,7 @@ module StackHelper
 	   	end
 	end
 
-	def study()
-		render 'stacks/study'
+	def study(stack_title)
+		generate_stack_helper(stack_title , "slide")
 	end
 end

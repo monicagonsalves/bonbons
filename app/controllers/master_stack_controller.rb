@@ -16,7 +16,7 @@ class MasterStackController < ApplicationController
 
 	def study_stack
 		@flashcards = Flashcard.where(user_id: current_user.id)
-		@stack_title = "All flashcards"
-		study()
+		stack_title = "All flashcards"
+		study(stack_title)
 	end
 end

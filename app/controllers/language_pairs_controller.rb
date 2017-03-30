@@ -33,7 +33,7 @@ class LanguagePairsController < ApplicationController
 		lp = LanguagePair.find_by(code: lang_code)
 
 		@flashcards = Flashcard.where(language_pair_id: lp.id, user_id: current_user.id)
-		@stack_title = "Study all flashcards from " + lp.from_lang.capitalize + " to " + lp.to_lang.capitalize
-		study()
+		stack_title = "Study all flashcards from " + lp.from_lang.capitalize + " to " + lp.to_lang.capitalize
+		study(stack_title)
 	end
 end

@@ -115,8 +115,8 @@ class UserDefinedTagsController < ApplicationController
 	def study_stack
 		tag = UserDefinedTag.find_by(id: params[:id], user_id: current_user.id)
 		@flashcards = tag.flashcards
-		@stack_title = " all flashcards tagged with " + tag.name.downcase
-		study()
+		stack_title = " all flashcards tagged with " + tag.name.downcase
+		study(stack_title)
 	end
 
 	private
