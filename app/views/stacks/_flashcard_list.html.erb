@@ -5,6 +5,7 @@
 	   <ul class="stack-info">
 	        <li> <b class="num_flashcards_in_stack"><%= size %></b> flashcard(s) </li>
 	   		<li> <b class="num_rows_in_stack"><%= num_rows %></b> row(s)</li>
+	   		<li><span class="glyphicon glyphicon-education" aria-hidden="true"></span> Study</li>
 	   </ul>
 
 	   <div class="container">
@@ -16,7 +17,7 @@
 
 	   	    	<% last_in_row = (current_row % num_per_row == (num_per_row - 1)) || fl.id == flashcards.last.id %>
 
-	   	    	<%= render partial: "flashcards/single_flashcard", locals: { f: fl, l: langs[fl.id], show_view_link: true, col_class: "col-xs-4" }%> 
+	   	    	<%= render partial: "flashcards/single_flashcard", locals: { f: fl, l: langs[fl.id], show_view_link: true, col_class: cc }%> 
 
 	   	    	<% if last_in_row then %> 
 	   	    		</div> <!-- END STACK ROW -->

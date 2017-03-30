@@ -32,7 +32,7 @@ input[type='checkbox']{
 	margin-right: 10px !important; 
 }
 
-.filter-and-generate-stacks{
+.filter-and-generate{
 
 	input[type='text']{
 		width: 100% !important; 
@@ -52,8 +52,7 @@ label:not(.filter-label){
 table{
 
 	width: 100%;
-	border: 1px solid #cecece;
-	border-radius: 20px !important; 
+	border: 1px solid #bcbcbc;
 
 	th, td{
 		padding-top: 10px !important;
@@ -64,6 +63,7 @@ table{
 
 	th{
 		background-color: #dbdbdb;	
+		font-family: 'Josefin Sans', sans-serif !important; 
 	}
 
 	tr{
@@ -76,13 +76,11 @@ table{
 	}
 
 	margin-top: 15px !important; 
-}
-
-.stacks-list{
-	.delete-link, .glyphicon{
-		color: #777777 !important; 
+	
+	.delete-link, .glyphicon {
+		color: #666666 !important; 
 		&:link, &:visited{
-			color: #777777 !important; 
+			color: #666666 !important; 
 		}
 		&:hover{
 			color: #FF10CF !important; 
@@ -92,4 +90,8 @@ table{
 	.glyphicon-chevron-down{
 		margin-left: 5px; 
 	}
+}
+
+.side-button{
+	margin-top: 10px !important; 
 }

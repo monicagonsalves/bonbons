@@ -6,8 +6,8 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
  root to: 'home#index'
  
- get '/flashcards', to: "stacks#master", as: :flashcards
- get 'stacks/master', to: 'stacks#master'
+ get '/flashcards', to: "master_stack#show_stack", as: :flashcards
+ get 'stacks/master', to: 'master_stack#show_stack'
 
  resources :flashcards, only: [:edit, :show, :update, :destroy] do 
     collection do 
@@ -16,25 +16,34 @@ Rails.application.routes.draw do
     end 
  end 
  
- # Following two routes both generate stacks by based on tags
- get    '/user_defined_tags/:id/flashcards',to: 'stacks#by_user_defined_tag', as: :user_defined_tag_stack 
- get    '/stacks/by_tag/:id' ,to: 'stacks#by_user_defined_tag', as: :stacks_by_user_defined_tag
+ get    '/stacks',                   to: 'stacks#index', as: :stacks_index
+ post   '/stacks',                   to: 'stacks#find' 
 
- get    '/stacks',             to: 'stacks#index', as: :stacks_index
- get    '/stacks/order',       to: 'stacks#order', as: :stacks_order
+ get    'stacks/by_tag/:id' ,        to: 'user_defined_tags#show_stack', as: :stacks_by_user_defined_tag
+ get    'stacks/by_batch/:id',       to: 'batches#show_stack',                     constraints: {id: /[0-9]+/}, as: :stacks_by_batch
+ get    'stacks/by_langs/:id',       to: 'language_pairs#show_stack',              constraints: {id: /[a-z]{2,3}_[a-z]{2,3}/ }, as: :stacks_by_langs
 
- post   '/stacks/find',        to: 'stacks#find', as: :stacks_find
+ get    'stacks/by_tag/:id/study',   to: 'user_defined_tags#study_stack', as: :study_stack_by_user_defined_tag
+ get    'stacks/by_batch/:id/study', to: 'batches#study_stack',                    constraints: {id: /[0-9]+/}, as: :study_stack_by_batch
+ get    'stacks/by_langs/:id/study', to: "language_pairs#study_stack",             constraints: {id: /[a-z]{2,3}_[a-z]{2,3}/ }, as: :study_stack_by_langs 
+ get    'stacks/master/study',       to: "master_stack#study_stack",  as: :study_master_stack
 
- get    'stacks/by_batch/:id', to: 'stacks#by_batch', constraints: {id: /[0-9]+/}, as: :stacks_by_batch
- get    'stacks/by_langs/:id', to: 'stacks#by_langs', constraints: {id: /[a-z]{2,3}_[a-z]{2,3}/ }, as: :stacks_by_langs
- 
- delete 'stacks/master',       to: 'stacks#destroy_master'
- delete 'stacks/by_batch/:id', to: 'stacks#destroy_by_batch',                constraints: {id: /[0-9]+/}
- delete 'stacks/by_langs/:id', to: 'stacks#destroy_by_langs',                constraints: {id: /[a-z]{2,3}_[a-z]{2,3}/ }
- delete 'stacks/by_tag/:id',   to: 'stacks#destroy_by_user_defined_tag_tag', constraints: {id: /[0-9]+/}
+ delete 'stacks/master',       to: 'master_stack#destroy_stack'
+ delete 'stacks/by_batch/:id', to: 'batches#destroy_stack',                  constraints: {id: /[0-9]+/}
+ delete 'stacks/by_langs/:id', to: 'language_pairs#destroy_stack',           constraints: {id: /[a-z]{2,3}_[a-z]{2,3}/ }
+ delete 'stacks/by_tag/:id',   to: 'user_defined_tags#destroy_stack',        constraints: {id: /[0-9]+/}
 
- resources :user_defined_tags, only:[:edit, :update, :destroy, :new, :create, :index]
+
+ resources :user_defined_tags, only:[:edit, :update, :destroy, :new, :create] do
+    collection do 
+      get '/:id/flashcards', to: 'user_defined_tags#show_stack', as: :user_defined_tag_stack
+    end
+ end
+
  resources :tags, only: [:index]
+
+ post '/tags', to: 'tags#find'
+ post '/tags/delete_all', to: 'tags#delete_all'
 
  get '/credits', to: 'credits#index', as: :credits
 

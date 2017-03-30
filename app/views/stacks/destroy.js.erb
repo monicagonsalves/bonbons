@@ -1,0 +1,3 @@
+$('.delete-stack-link').bind('ajax:success', function() {
+    $(this).closest('tr').children().filter('.stack-size').html("0");
+});

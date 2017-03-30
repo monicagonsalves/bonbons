@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170328104208) do
+ActiveRecord::Schema.define(version: 20170329140444) do
 
   create_table "batches", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -76,6 +76,8 @@ ActiveRecord::Schema.define(version: 20170328104208) do
     t.datetime "updated_at",             null: false
     t.integer  "category",   limit: 4,   null: false
     t.string   "name",       limit: 255
+    t.integer  "is_public",  limit: 4
+    t.string   "path_to",    limit: 255
   end
 
   create_table "user_defined_tags", force: :cascade do |t|

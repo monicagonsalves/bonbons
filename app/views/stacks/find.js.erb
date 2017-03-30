@@ -1,0 +1,5 @@
+console.log("Why does this happen? I might be too tired to keep going.");
+
+$('.stack-list-row').remove();
+
+$("table").append("<%= escape_javascript(render partial: 'stack_list', locals: { stacks: @stacks, study_paths: @study_paths } ) %>"); 

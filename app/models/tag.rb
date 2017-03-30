@@ -1,7 +1,7 @@
 class Tag
   include ActiveModel::Model
 
-  attr_accessor :name, :flashcards, :stack_path, :category
+  attr_accessor :name, :flashcards, :stack_path, :category, :user_defined_tag_id
   validates_presence_of :name
   validates_presence_of :flashcards
 
@@ -12,7 +12,7 @@ class Tag
   	user_defined_tags.each do |udt| 
   		sp = "/stacks/by_tag/" + udt.id.to_s
 
-  		tags << Tag.new(name: udt.name.capitalize, flashcards: udt.flashcards, stack_path: sp, category: 1)
+  		tags << Tag.new(name: udt.name.capitalize, flashcards: udt.flashcards, stack_path: sp, category: 1, user_defined_tag_id: udt.id)
   	end
 
   	return tags 
@@ -69,7 +69,7 @@ class Tag
   def self.tags_to_stacks(tags)
     stacks = []
     tags.each do |tag|
-      s =  Stack.new(name: tag.name, category: tag.category)
+      s =  Stack.new(name: tag.name, category: tag.category, is_public: 0, path_to: tag.stack_path)
       s.flashcards << tag.flashcards
 
       stacks << s 

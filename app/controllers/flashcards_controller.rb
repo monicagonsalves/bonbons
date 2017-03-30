@@ -113,6 +113,10 @@ class FlashcardsController < ApplicationController
 
 				request_ref_info = Rails.application.routes.recognize_path(request.referrer)
 
+				# You can delete flashcards on many different pages, including the page where 
+				# you view a single flashcard. In the case that you delete the flashcard on 
+				# that page, then you cannot be redirected back to that page. Instead, 
+				# you need to be redirected back somewhere else. 
 				unless request_ref_info[:controller] == 'flashcards' && request_ref_info[:action] == 'show'
 					
 					respond_to do |format|
@@ -286,12 +290,15 @@ class FlashcardsController < ApplicationController
 			unless UserDefinedTag.exists?(name: tag_name, user_id: current_user.id)
 			
 				tag = UserDefinedTag.create(name: tag_name, user_id: current_user.id)
-				tags_to_add << tag 
+
+				unless tag.empty?
+					tags_to_add << tag 
+				end
 			
 			else
 				tag = UserDefinedTag.find_by(name: tag_name, user_id: current_user.id)
 
-				unless flashcard.user_defined_tags.exists?(name: tag_name, user_id: current_user.id)
+				unless flashcard.user_defined_tags.exists?(name: tag_name, user_id: current_user.id) || tag.empty?
 					tags_to_add << tag 
 				end
 			

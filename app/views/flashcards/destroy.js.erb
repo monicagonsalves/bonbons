@@ -39,19 +39,20 @@ var rewrapColumns = function(container){
 $('.delete-link').bind('ajax:success', function() {
     var card_id = $(this).attr('data-card-id');
     var card_id_str = "#" + card_id + "_top";
-    var selected = $(card_id_str);
-
 
     var selected = $(card_id_str);
     var container = selected.parents()
                             .filter('.row')
                             .parent();
 
-
+    // 
     var current = container.children().first();
 
    	selected.fadeOut(800, function(){
 
+        // We do not want to unwrap every row, just the row 
+        // the selected element is in and the ones that 
+        // follow it. 
    		unwrapColumns(current);
       
         $(card_id_str).remove();

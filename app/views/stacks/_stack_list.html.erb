@@ -1,15 +1,31 @@
 		    <% i = 0 %> 
 			<% stacks.each do |stack| %>
-				<tr>
+				<tr class="stack-list-row">
 					<td><%= stack.name %></td>
-					<td><%= stack.flashcards.size %></td>
-					<td><span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span></td>
-					<td><span class="glyphicon glyphicon-education" aria-hidden="true"></span></td>
-					<td><span class="glyphicon glyphicon-print" aria-hidden="true"></span></td>
-					<td>No</td>
+					<td class="stack-size"><%= stack.flashcards.size %></td>
 					<td>
-						<a data-confirm="Are you sure?" rel="nofollow" data-remote="true" data-method="delete" href="<%= paths[i] %>" class="delete-link" data-toggle="right" data-placement="bottom" title="Delete <%= stack.name %> stack">
- 						<span class="glyphicon glyphicon-remove-circle delete-link" aria-hidden="true"></a>
+						<a href="<%= stack.path_to %>" data-toggle = "right" data-placement = "bottom" title = "View <%= stack.name %> stack"><span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span></a>
+					</td>
+					<td>
+						<a href="<%= study_paths[i] %>" data-toggle="right" data-placement="bottom" title="Study stack <%= stack.name %>">
+						<span class="glyphicon glyphicon-education" aria-hidden="true"></span>
+						</a>
+					</td>
+					
+					<td><span class="glyphicon glyphicon-print" aria-hidden="true"></span></td>
+					<td>
+					    <% if stack.is_public > 0 then %>
+					       <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+					    <% else %>
+					       <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> 
+					    <% end %>
+					</td>
+					<td>
+						<a data-confirm="Are you sure?" rel="nofollow" data-remote="true" data-method="delete" href="<%= stack.path_to %>" class="delete-stack-link" data-toggle="right" data-placement="bottom" title="Delete all flashcards in <%= stack.name %> stack">
+ 						<span class="glyphicon glyphicon-remove-circle delete-stack-link" aria-hidden="true"></a>
+ 					</td>
+					<td>
+ 						<span class="glyphicon glyphicon-erase delete-stack-link" aria-hidden="true">
  					</td>
 				</tr>
 

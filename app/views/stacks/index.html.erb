@@ -1,38 +1,33 @@
-<h1>Find Stacks</h1>
-<!-- TODO: Instead of tab-like interface, start off by listing all the stacks ordered 
-alpahbetially by name and give the user the option of filtering stacks by type or name. -->
+<h1>All Stacks</h1>
 <div class="stacks-list">
 	<div class="container">
-		<form class="filter-and-generate-stacks" role="search">
-		<%= form_tag("/stacks/find", method: "post") do %>
+		<p>To search for multiple terms, enter them as a comma separated list. To just apply a filter, check the box next to the filter you want to apply and leave the search box empty.</p>
+		<%= form_tag("/stacks", method: "post", :class => "filter-and-generate", :remote => true, "data-type" => "script" ) do %>
 		<div class="row">
-			<div class="col-xs-2">
-			</div>
-			<div class="col-xs-2">
+			<div class="col-xs-4">
 				<label class="filter-label">Filter: </label>
 			</div>
 			<div class="col-xs-2">
-				<label><input type="checkbox" name="by_tags" />Tags</label>
+				<label><input type="checkbox" name="filter_rules[]"  value="1" />Tags</label>
 			</div>
 			<div class='col-xs-2'>
-				<label><input type="checkbox" name="by_langs" />Languages</label>
+				<label><input type="checkbox" name="filter_rules[]" value="3" />Languages</label>
 			</div>
 			<div class="col-xs-2">
-				<label><input type="checkbox" name="by_tags" />Creation Batch</label>
+				<label><input type="checkbox" name="filter_rules[]" value="2" />Creation Batch</label>
 			</div>
 			<div class="col-xs-2">
-				<label><input type="checkbox" name="by_tags" /> Allow empty?</label>
+				<label><input type="checkbox" name="filter_rules[]" value="remove_empty" /> Remove empty?</label>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-xs-12">
 		    	<div class="input-group">
-					<input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term">
+					<input type="text" class="form-control" placeholder="Search" name="srch_term" id="srch_term">
 					<div class="input-group-btn">
-						<button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+						<button class="btn btn-default srch-button" type="submit"><i class="glyphicon glyphicon-search"></i></button>
 					</div>
 				</div>
-				</form>
 				<% end %>
 			</div>
 		</div>
@@ -45,10 +40,11 @@ alpahbetially by name and give the user the option of filtering stacks by type o
 				<th>Study</th>
 				<th>Print</th>
 				<th>Public?</th>
-				<th>Delete</th>
+				<th data-toggle="right" data-placement="bottom" title="If the stack was automatically generated, then this action will delete all the flashcards associated with the stack. If the stack was created by the user, then this action will delete the stack and all flashcards associated with it.">Delete?</th>
+				<th data-toggle="right" data-placement="bottom" title="Disassociates flashcards with the stack, but does not delete the actual flashcards.">Make Empty?</th>
 			</tr>
 
-		    <%= render partial: "stack_list", locals: { stacks: @stacks, paths: @paths }%> 
+		    <%= render partial: "stack_list", locals: { stacks: @stacks, study_paths: @study_paths }%> 
 
 		</table>
 	</div>

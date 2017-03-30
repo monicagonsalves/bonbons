@@ -1,0 +1,7 @@
+$('.delete-tag-link').bind('ajax:success', function() {
+	var row = $(this).closest('tr');
+
+    row.fadeOut(800);
+
+    console.log("Delete tag link fired.");
+});
