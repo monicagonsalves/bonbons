@@ -9,7 +9,8 @@ class LanguagePairsController < ApplicationController
 
 		unless @flashcards.nil?
 			stack_title = 'All flashcards from ' + language_pair.from_lang.capitalize + " to " + language_pair.to_lang.capitalize
-		    @col_class = "col-xs-4"
+			@study_link = study_stack_by_langs_path(params[:id])
+
 		    generate_stack_helper(stack_title)
 		else
 			flash[:error] =  "Cannot retrieve stack by language pair given."

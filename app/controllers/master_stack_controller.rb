@@ -4,7 +4,7 @@ class MasterStackController < ApplicationController
 	def show_stack
 		@flashcards = Flashcard.where(user_id: current_user.id)
 		stack_title = "All flashcards"
-		@col_class = "col-xs-4"
+		@study_link = study_master_stack_path()
 		generate_stack_helper(stack_title)
 	end
 

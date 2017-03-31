@@ -96,7 +96,7 @@ class UserDefinedTagsController < ApplicationController
 
 		unless @flashcards.nil?
 			stack_title = "All flashcards with tag " + tag.name
-			@col_class = "col-xs-4"
+			@study_link = study_stack_by_user_defined_tag_path(params[:id])
 			generate_stack_helper(stack_title)
 		else
 			flash[:error] = "Cannot retrieve stack by tag given."

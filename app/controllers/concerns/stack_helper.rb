@@ -9,6 +9,7 @@ module StackHelper
 
 		@stack_title = stack_title 
 		@col_class = col_class
+
 		render 'stacks/generated_stack'
 	end
 

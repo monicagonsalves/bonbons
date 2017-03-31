@@ -6,7 +6,7 @@ class BatchesController < ApplicationController
 
 		unless @flashcards.nil?
 			stack_title = "All flashcards " + " from batch " + params[:id]
-			@col_class = "col-xs-4"
+			@study_link = study_stack_by_batch_path(params[:id])
 			generate_stack_helper(stack_title)
 		else
 			flash[:error] = "Cannot retrieve stack by batch number given."

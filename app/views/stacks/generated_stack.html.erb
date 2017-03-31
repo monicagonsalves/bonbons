@@ -12,7 +12,11 @@
 	<li> <b class="num_rows_in_stack"><%= num_rows %></b> row(s)</li>
 
 	<% unless action_name == 'study_stack' then %>
-	<li><span class="glyphicon glyphicon-education" aria-hidden="true"></span> Study</li>
+	<li><span class="glyphicon glyphicon-education" aria-hidden="true"></span>
+
+		<a href="<%= @study_link %>">Study</a>
+
+	</li>
 	<% end %>
 </ul>
 
