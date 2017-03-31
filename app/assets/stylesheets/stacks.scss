@@ -110,6 +110,8 @@ table{
 {
 	width: 70%;
 	float: left;
+	position: relative;
+	z-index: 2; 
 }
 
 .left-control{
@@ -125,6 +127,8 @@ table{
 	font-size: 5em; 
 	line-height: 6em;
 	color: #e2e2e2;
+	position: relative; 
+	z-index: 4;
 
 	&:hover{
 		color: #c9c9c9; 

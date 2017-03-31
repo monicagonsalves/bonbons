@@ -10,7 +10,7 @@
 	   	    		<div class="row"> <!-- START STACK ROW --> 
 	   	    	<% end %>
 
-	   			<%  ss = if action_name == 'study_stack' && current_row > 0 then '' else 'selected' end %>
+	   			<%  ss = if action_name == 'study_stack' && current_row > 0 then '' else ' selected' end %>
 
 	   	    	<% last_in_row = (current_row % num_per_row == (num_per_row - 1)) || fl.id == flashcards.last.id %>
 

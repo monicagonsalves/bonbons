@@ -8,7 +8,7 @@ module StackHelper
 		end 
 
 		@stack_title = stack_title 
-		@col_class = col_class
+		@col_class = col_class + ' '
 
 		render 'stacks/generated_stack'
 	end
@@ -38,7 +38,7 @@ module StackHelper
 		end 
 
 		@stack_title = stack_title 
-		@col_class = 'slide'
+		@col_class = 'slide '
 
 		render 'stacks/study'
 	end

@@ -1,47 +1,57 @@
 $(document).on('turbolinks:load', function() {
+	var count = 0; 
 
 	$('.left-control').click(function(){
-		if($('.selected').prev().length > 0){
+		
+		var prev_count = count - 1; 
+		
 
-			var current = $('.selected');
+		if(count > 0)
+		{
 
-			current.fadeOut(800, function(){
+			$('.slide_' + count).addClass('animated slideOutLeft');
 
-				$(this).toggleClass('selected');
-				$(this).prev().toggleClass('selected');
-
-				var prev_id = $(this).prev().attr('id').split('_').slice(0,2).join('_');
-
-				if($("#" +prev_id).hasClass('front-flip'))
-					$("#" + prev_id).toggleClass('front-flip');
-
-				$(this).prev().fadeIn(800);
-			});
+			setTimeout(function(){
 			
+				$('.slide_' + count).fadeOut(0).toggleClass('selected');
+			
+				$('.slide_' + prev_count).fadeIn(90);
+
+				$('.slide_' + prev_count).toggleClass('selected');
+
+				$('.slide_' + count).removeClass('animated slideOutLeft');
+
+				
+				count =  prev_count;  	
+			
+
+	    	},400);
 		}
 	});
 
 	$('.right-control').click(function(){
 		
 		// Select the right node 
-		if($('.selected').next().length > 0){
+		var next_count = count + 1; 
 
-			var current = $('.selected');
+		if( count < $('.slide').length - 1)
+		{
+			$('.slide_' + count).addClass('animated slideOutRight');
 
-			current.fadeOut(800, function(){
+			setTimeout(function(){
 			
-				$(this).toggleClass('selected');
-				$(this).next().toggleClass('selected');
+				$('.slide_' + count).fadeOut(0).toggleClass('selected');
+			
+				$('.slide_' + next_count).fadeIn(90);
 
-				var next_id = $(this).next().attr('id').split('_').slice(0,2).join('_');
+				$('.slide_' + next_count).toggleClass('selected');
 
-				if($('#' + next_id).hasClass('front-flip'))
-					$('#' + next_id).toggleClass('front-flip');
+				$('.slide_' + count).removeClass('animated slideOutRight');
 
-				$(this).next().fadeIn(800);
-
-			});
+				count = next_count; 
+	    	},400);
 
 		}
+
 	});
 });
