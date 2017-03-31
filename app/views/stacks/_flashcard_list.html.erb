@@ -2,29 +2,21 @@
 	   <% size =  flashcards.count %>
 	   <% num_per_row = 3 %> 
 	   <% num_rows = (size/num_per_row.to_f).ceil%>
-	   <ul class="stack-info">
-	        <li> <b class="num_flashcards_in_stack"><%= size %></b> flashcard(s) </li>
-	   		<li> <b class="num_rows_in_stack"><%= num_rows %></b> row(s)</li>
 
-	   		<% unless action_name == 'study_stack' then %>
-	   			<li><span class="glyphicon glyphicon-education" aria-hidden="true"></span> Study</li>
-	   		<% end %>
-	   </ul>
-
-	   <div class="container">
+	   <div class="<%= if action_name == 'study_stack' then '' else 'container' end %>">
 	   		<% current_row = 0 %> 
 	   		<% flashcards.each do |fl| %> 
-	   	    	<% if current_row % num_per_row == 0 then %> 
+	   	    	<% if !(action_name == 'study_stack') && (current_row % num_per_row == 0) then %> 
 	   	    		<div class="row"> <!-- START STACK ROW --> 
 	   	    	<% end %>
 
-	   	    	<%  ss = if action_name == 'study_stack' && current_row > 0 then 'hide' else '' end %>
+	   			<%  ss = if action_name == 'study_stack' && current_row > 0 then '' else 'selected' end %>
 
 	   	    	<% last_in_row = (current_row % num_per_row == (num_per_row - 1)) || fl.id == flashcards.last.id %>
 
-	   	    	<%= render partial: "flashcards/single_flashcard", locals: { f: fl, l: langs[fl.id], show_view_link: true, col_class: cc, should_show: ss }%> 
+	   	    	<%= render partial: "flashcards/single_flashcard", locals: { f: fl, l: langs[fl.id], show_view_link: true, col_class: cc, should_show: ss, count: current_row }%> 
 
-	   	    	<% if last_in_row then %> 
+	   	    	<% if !(action_name == 'study_stack') && last_in_row then %> 
 	   	    		</div> <!-- END STACK ROW -->
 	   	    	<% end %>
 	   	    	<% current_row += 1 %> 

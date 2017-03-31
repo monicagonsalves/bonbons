@@ -31,6 +31,14 @@ module StackHelper
 	end
 
 	def study(stack_title)
-		generate_stack_helper(stack_title , "slide")
+		@langs = {}
+		@flashcards.each do |f| 
+			@langs[f.id] = LanguagePair.find(f.language_pair_id)
+		end 
+
+		@stack_title = stack_title 
+		@col_class = 'slide'
+
+		render 'stacks/study'
 	end
 end

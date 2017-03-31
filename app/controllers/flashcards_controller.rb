@@ -298,7 +298,7 @@ class FlashcardsController < ApplicationController
 			else
 				tag = UserDefinedTag.find_by(name: tag_name, user_id: current_user.id)
 
-				unless flashcard.user_defined_tags.exists?(name: tag_name, user_id: current_user.id) || tag.empty?
+				unless flashcard.user_defined_tags.exists?(name: tag_name, user_id: current_user.id) || tag.nil?
 					tags_to_add << tag 
 				end
 			

@@ -1,0 +1,15 @@
+<h1><%= @stack_title %></h2>
+<div class="study-stack-container container">
+		<div class="left-control">
+			<span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>
+		</div>
+
+		<div class="inner-study-stack-container">
+			<%= render partial: "stacks/flashcard_list", locals: { flashcards: @flashcards, langs: @langs, cc: @col_class }%> 
+		</div>
+
+		<div class="right-control">
+			<span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+		</div>
+</div>
+

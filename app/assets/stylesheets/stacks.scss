@@ -95,3 +95,38 @@ table{
 .side-button{
 	margin-top: 10px !important; 
 }
+
+.study-stack-container .flashcards-list{
+	.slide{
+		display: none;
+
+		&.selected{
+			display: block;
+		}
+	}
+}
+
+.inner-study-stack-container
+{
+	width: 70%;
+	float: left;
+}
+
+.left-control{
+	width: 15%;
+	float: left; 
+}
+.right-control{
+	widht: 15%;
+	float: right; 
+}
+
+.left-control, .right-control{
+	font-size: 5em; 
+	line-height: 6em;
+	color: #e2e2e2;
+
+	&:hover{
+		color: #c9c9c9; 
+	}
+}

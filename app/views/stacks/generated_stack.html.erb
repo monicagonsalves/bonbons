@@ -1,5 +1,19 @@
 <h1><%= @stack_title %></h1>
 
+<% size =  @flashcards.count %>
+<% num_per_row = 3 %> 
+<% num_rows = (size/num_per_row.to_f).ceil%>
+
 <%= render partial: 'home/flash' %> 
 <p><input type="checkbox" class="toggle-all-tags"/>Toggle all tags?</p>
+
+<ul class="stack-info <%= if action_name == 'study_stack' then 'hide' else '' end %>">
+	<li> <b class="num_flashcards_in_stack"><%= size %></b> flashcard(s) </li>
+	<li> <b class="num_rows_in_stack"><%= num_rows %></b> row(s)</li>
+
+	<% unless action_name == 'study_stack' then %>
+	<li><span class="glyphicon glyphicon-education" aria-hidden="true"></span> Study</li>
+	<% end %>
+</ul>
+
 <%= render partial: "stacks/flashcard_list", locals: { flashcards: @flashcards, langs: @langs, cc: @col_class }%> 

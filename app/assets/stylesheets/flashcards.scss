@@ -38,9 +38,10 @@
 .front-flip{
 	transform: rotateY(-180deg);
 }
-.back-flip{
+
+/*.back-flip{
 	transform: rotateY(0deg);
-}
+}*/
 /*======================================== Flashcard styles ========================== */
 .flashcard-container{
 	position: relative; /* Part of flip animation code */

@@ -31,6 +31,7 @@ gem 'devise'
 gem 'activemodel'
 gem 'bootstrap-sass', '~> 3.3.7'
 gem 'autoprefixer-rails'
+gem 'jquery-turbolinks', '~> 2.1'
 #gem 'google-webfonts-rails', '~> 0.0.4'
 
 # Use ActiveModel has_secure_password
