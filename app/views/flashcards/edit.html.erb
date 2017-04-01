@@ -38,7 +38,7 @@
 					<% @flashcard.user_defined_tags.each do |t| %>
 						<li>
 							<%= check_box_tag "disassoc_tag[]", t.name %>
-							<%= link_to t.name.capitalize, user_defined_tag_stack_path(t) %> 
+							<%= link_to t.name.capitalize, user_defined_tags_path(t) %> 
 						</li>
 					<% end %>
 				</ul>

@@ -1,7 +1,14 @@
 <h1><%= @stack_title %></h2>
 
 <div class="study-stack-container container">
-	
+		<h4>Number of flashcards studied in stack</h4>
+
+	<div class="progress">
+  		<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: <%= (1.to_f/@flashcards.size.to_f)*100 %>% ;">
+    		1
+ 		 </div>
+	</div>
+
 	<div class="container">
 		<div class="left-control">
 			<span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>
@@ -16,4 +23,3 @@
 		</div>
 	</div>
 </div>
-
